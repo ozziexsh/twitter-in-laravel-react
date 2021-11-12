@@ -13,6 +13,7 @@ export interface Team {
 export interface User {
   id: number;
   name: string;
+  username: string;
   email: string;
   current_team_id: Nullable<number>;
   profile_photo_path: Nullable<string>;
@@ -84,6 +85,14 @@ export interface TeamInvitation {
   team_id: number;
   email: string;
   role: Nullable<string>;
+  created_at: DateTime;
+  updated_at: DateTime;
+}
+
+export interface Tweet {
+  id: number;
+  user_id: number;
+  body: string;
   created_at: DateTime;
   updated_at: DateTime;
 }

@@ -1,11 +1,7 @@
 import { Inertia } from '@inertiajs/inertia';
-// @ts-ignore
-import { InertiaLink, Head } from '@inertiajs/inertia-react';
-import classNames from 'classnames';
-import React, { PropsWithChildren, useState } from 'react';
+import { InertiaLink } from '@inertiajs/inertia-react';
+import React, { PropsWithChildren } from 'react';
 import useRoute from '@/Hooks/useRoute';
-import useTypedPage from '@/Hooks/useTypedPage';
-import { Team } from '@/types';
 import {
   HomeIcon,
   HashtagIcon,
@@ -16,12 +12,6 @@ import {
   UserIcon,
   DotsCircleHorizontalIcon,
   SunIcon,
-  StarIcon,
-  PhotographIcon,
-  ChatIcon,
-  ShareIcon,
-  HeartIcon,
-  RefreshIcon,
 } from '@heroicons/react/outline';
 
 const navigation = [
@@ -41,11 +31,7 @@ interface Props {
   renderHeader?(): JSX.Element;
 }
 
-export default function AppLayout({
-  title,
-  renderHeader,
-  children,
-}: PropsWithChildren<Props>) {
+export default function AppLayout({ children }: PropsWithChildren<Props>) {
   const route = useRoute();
 
   function logout(e: React.FormEvent) {
@@ -72,106 +58,7 @@ export default function AppLayout({
           ))}
         </ul>
       </div>
-      <div className={'w-[40%] text-white'}>
-        <div
-          className={
-            'flex items-center justify-between p-4 border-b border-gray-50'
-          }
-        >
-          <h2 className={'text-xl font-semibold'}>Home</h2>
-          <StarIcon className={'w-6 h-6'} />
-        </div>
-
-        <div className={'flex p-4 border-b border-gray-50'}>
-          <div className={'pr-4'}>
-            <img
-              src="https://via.placeholder.com/100"
-              alt=""
-              className={'rounded-full w-12 h-12'}
-            />
-          </div>
-          <div className={'flex-1'}>
-            <textarea
-              className={'w-full bg-transparent resize-none border-0 rounded'}
-              placeholder={"What's happening?"}
-            />
-            <div className={'flex items-center justify-between'}>
-              <div className="flex items-center space-x-2 text-blue-400">
-                <button className={'border-0 bg-none'}>
-                  <PhotographIcon className={'w-6 h-6'} />
-                </button>
-                <button className={'border-0 bg-none'}>
-                  <PhotographIcon className={'w-6 h-6'} />
-                </button>
-                <button className={'border-0 bg-none'}>
-                  <PhotographIcon className={'w-6 h-6'} />
-                </button>
-                <button className={'border-0 bg-none'}>
-                  <PhotographIcon className={'w-6 h-6'} />
-                </button>
-              </div>
-              <button
-                className={
-                  'rounded-full px-6 py-2 bg-blue-400 border-0 font-bold'
-                }
-              >
-                Tweet
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className={'flex p-4'}>
-          <div className={'pr-4'}>
-            <img
-              src="https://via.placeholder.com/100"
-              alt=""
-              className={'block rounded-full w-12 h-12'}
-            />
-          </div>
-          <div className={'flex-1'}>
-            <div className={'flex items-center space-x-1'}>
-              <span className={'font-bold'}>Ozzie Neher</span>
-              <span className={'text-gray-400'}>@ozzieneher</span>
-            </div>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim, ad
-              harum officiis, magni esse tempora quaerat, ipsam consequuntur
-              numquam amet quidem mollitia! Quia aut cumque a tempore veniam
-              nulla quis?
-            </p>
-            <div
-              className={
-                'mt-2 flex items-center justify-between text-gray-400 w-3/4 text-sm'
-              }
-            >
-              <button
-                className={'flex items-center space-x-4 hover:text-blue-400'}
-              >
-                <ChatIcon className={'w-4 h-4'} />
-                <span>27</span>
-              </button>
-              <button
-                className={'flex items-center space-x-4 hover:text-red-400'}
-              >
-                <HeartIcon className={'w-4 h-4'} />
-                <span>100</span>
-              </button>
-              <button
-                className={'flex items-center space-x-4 hover:text-green-400'}
-              >
-                <RefreshIcon className={'w-4 h-4'} />
-                <span>100</span>
-              </button>
-              <button
-                className={'flex items-center space-x-4 hover:text-blue-400'}
-              >
-                <ShareIcon className={'w-4 h-4'} />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div className={'w-[40%] text-white'}>{children}</div>
       <div className={'flex-1 border-l border-gray-50'}></div>
     </div>
   );

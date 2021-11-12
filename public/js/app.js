@@ -8514,6 +8514,296 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Components/TweetForm.tsx":
+/*!***********************************************!*\
+  !*** ./resources/js/Components/TweetForm.tsx ***!
+  \***********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var outline_1 = __webpack_require__(/*! @heroicons/react/outline */ "./node_modules/@heroicons/react/outline/esm/index.js");
+
+var useAxios_1 = __importDefault(__webpack_require__(/*! @/Hooks/useAxios */ "./resources/js/Hooks/useAxios.ts"));
+
+function TweetForm(_a) {
+  var onCreate = _a.onCreate;
+
+  var _b = (0, react_1.useState)(''),
+      body = _b[0],
+      setBody = _b[1];
+
+  var axios = (0, useAxios_1["default"])();
+
+  function onChange(e) {
+    if (body.length >= 280) {
+      return;
+    }
+
+    setBody(e.currentTarget.value);
+  }
+
+  function create() {
+    return __awaiter(this, void 0, void 0, function () {
+      var res;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            return [4
+            /*yield*/
+            , axios.post('/tweets', {
+              body: body
+            })];
+
+          case 1:
+            res = _a.sent();
+            setBody('');
+            onCreate(res.data.tweet);
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  }
+
+  return react_1["default"].createElement("div", {
+    className: 'flex p-4'
+  }, react_1["default"].createElement("div", {
+    className: 'pr-4'
+  }, react_1["default"].createElement("img", {
+    src: "https://via.placeholder.com/100",
+    alt: "",
+    className: 'rounded-full w-12 h-12'
+  })), react_1["default"].createElement("div", {
+    className: 'flex-1'
+  }, react_1["default"].createElement("textarea", {
+    className: 'w-full bg-transparent resize-none border-0 rounded',
+    placeholder: "What's happening?",
+    value: body,
+    onChange: onChange
+  }), react_1["default"].createElement("div", {
+    className: 'flex items-center justify-between'
+  }, react_1["default"].createElement("div", {
+    className: "flex items-center space-x-2 text-blue-400"
+  }, react_1["default"].createElement("button", {
+    className: 'border-0 bg-none'
+  }, react_1["default"].createElement(outline_1.PhotographIcon, {
+    className: 'w-6 h-6'
+  })), react_1["default"].createElement("button", {
+    className: 'border-0 bg-none'
+  }, react_1["default"].createElement(outline_1.PhotographIcon, {
+    className: 'w-6 h-6'
+  })), react_1["default"].createElement("button", {
+    className: 'border-0 bg-none'
+  }, react_1["default"].createElement(outline_1.PhotographIcon, {
+    className: 'w-6 h-6'
+  })), react_1["default"].createElement("button", {
+    className: 'border-0 bg-none'
+  }, react_1["default"].createElement(outline_1.PhotographIcon, {
+    className: 'w-6 h-6'
+  }))), react_1["default"].createElement("div", {
+    className: 'flex items-center space-x-2'
+  }, body && react_1["default"].createElement("span", null, body.length, " / 240"), react_1["default"].createElement("button", {
+    className: 'rounded-full px-6 py-2 bg-blue-400 border-0 font-bold',
+    onClick: create
+  }, "Tweet")))));
+}
+
+exports["default"] = TweetForm;
+
+/***/ }),
+
 /***/ "./resources/js/Domains/API/APITokenManager.tsx":
 /*!******************************************************!*\
   !*** ./resources/js/Domains/API/APITokenManager.tsx ***!
@@ -9829,6 +10119,27 @@ exports["default"] = UpdateProfileInformationForm;
 
 /***/ }),
 
+/***/ "./resources/js/Hooks/useAxios.ts":
+/*!****************************************!*\
+  !*** ./resources/js/Hooks/useAxios.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+function useAxios() {
+  return window.axios;
+}
+
+exports["default"] = useAxios;
+
+/***/ }),
+
 /***/ "./resources/js/Hooks/useRoute.ts":
 /*!****************************************!*\
   !*** ./resources/js/Hooks/useRoute.ts ***!
@@ -9960,50 +10271,6 @@ function JetActionSection(_a) {
 }
 
 exports["default"] = JetActionSection;
-
-/***/ }),
-
-/***/ "./resources/js/Jetstream/ApplicationLogo.tsx":
-/*!****************************************************!*\
-  !*** ./resources/js/Jetstream/ApplicationLogo.tsx ***!
-  \****************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-function JetApplicationLogo(_a) {
-  var className = _a.className;
-  return react_1["default"].createElement("svg", {
-    viewBox: "0 0 317 48",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg",
-    className: className
-  }, react_1["default"].createElement("path", {
-    d: "M74.09 30.04V13h-4.14v21H82.1v-3.96h-8.01zM95.379 19v1.77c-1.08-1.35-2.7-2.19-4.89-2.19-3.99 0-7.29 3.45-7.29 7.92s3.3 7.92 7.29 7.92c2.19 0 3.81-.84 4.89-2.19V34h3.87V19h-3.87zm-4.17 11.73c-2.37 0-4.14-1.71-4.14-4.23 0-2.52 1.77-4.23 4.14-4.23 2.4 0 4.17 1.71 4.17 4.23 0 2.52-1.77 4.23-4.17 4.23zM106.628 21.58V19h-3.87v15h3.87v-7.17c0-3.15 2.55-4.05 4.56-3.81V18.7c-1.89 0-3.78.84-4.56 2.88zM124.295 19v1.77c-1.08-1.35-2.7-2.19-4.89-2.19-3.99 0-7.29 3.45-7.29 7.92s3.3 7.92 7.29 7.92c2.19 0 3.81-.84 4.89-2.19V34h3.87V19h-3.87zm-4.17 11.73c-2.37 0-4.14-1.71-4.14-4.23 0-2.52 1.77-4.23 4.14-4.23 2.4 0 4.17 1.71 4.17 4.23 0 2.52-1.77 4.23-4.17 4.23zM141.544 19l-3.66 10.5-3.63-10.5h-4.26l5.7 15h4.41l5.7-15h-4.26zM150.354 28.09h11.31c.09-.51.15-1.02.15-1.59 0-4.41-3.15-7.92-7.59-7.92-4.71 0-7.92 3.45-7.92 7.92s3.18 7.92 8.22 7.92c2.88 0 5.13-1.17 6.54-3.21l-3.12-1.8c-.66.87-1.86 1.5-3.36 1.5-2.04 0-3.69-.84-4.23-2.82zm-.06-3c.45-1.92 1.86-3.03 3.93-3.03 1.62 0 3.24.87 3.72 3.03h-7.65zM164.516 34h3.87V12.1h-3.87V34zM185.248 34.36c3.69 0 6.9-2.01 6.9-6.3V13h-2.1v15.06c0 3.03-2.07 4.26-4.8 4.26-2.19 0-3.93-.78-4.62-2.61l-1.77 1.05c1.05 2.43 3.57 3.6 6.39 3.6zM203.124 18.64c-4.65 0-7.83 3.45-7.83 7.86 0 4.53 3.24 7.86 7.98 7.86 3.03 0 5.34-1.41 6.6-3.45l-1.74-1.02c-.81 1.44-2.46 2.55-4.83 2.55-3.18 0-5.55-1.89-5.97-4.95h13.17c.03-.3.06-.63.06-.93 0-4.11-2.85-7.92-7.44-7.92zm0 1.92c2.58 0 4.98 1.71 5.4 5.01h-11.19c.39-2.94 2.64-5.01 5.79-5.01zM221.224 20.92V19h-4.32v-4.2l-1.98.6V19h-3.15v1.92h3.15v9.09c0 3.6 2.25 4.59 6.3 3.99v-1.74c-2.91.12-4.32.33-4.32-2.25v-9.09h4.32zM225.176 22.93c0-1.62 1.59-2.37 3.15-2.37 1.44 0 2.97.57 3.6 2.1l1.65-.96c-.87-1.86-2.79-3.06-5.25-3.06-3 0-5.13 1.89-5.13 4.29 0 5.52 8.76 3.39 8.76 7.11 0 1.77-1.68 2.4-3.45 2.4-2.01 0-3.57-.99-4.11-2.52l-1.68.99c.75 1.92 2.79 3.45 5.79 3.45 3.21 0 5.43-1.77 5.43-4.32 0-5.52-8.76-3.39-8.76-7.11zM244.603 20.92V19h-4.32v-4.2l-1.98.6V19h-3.15v1.92h3.15v9.09c0 3.6 2.25 4.59 6.3 3.99v-1.74c-2.91.12-4.32.33-4.32-2.25v-9.09h4.32zM249.883 21.49V19h-1.98v15h1.98v-8.34c0-3.72 2.34-4.98 4.74-4.98v-1.92c-1.92 0-3.69.63-4.74 2.73zM263.358 18.64c-4.65 0-7.83 3.45-7.83 7.86 0 4.53 3.24 7.86 7.98 7.86 3.03 0 5.34-1.41 6.6-3.45l-1.74-1.02c-.81 1.44-2.46 2.55-4.83 2.55-3.18 0-5.55-1.89-5.97-4.95h13.17c.03-.3.06-.63.06-.93 0-4.11-2.85-7.92-7.44-7.92zm0 1.92c2.58 0 4.98 1.71 5.4 5.01h-11.19c.39-2.94 2.64-5.01 5.79-5.01zM286.848 19v2.94c-1.26-2.01-3.39-3.3-6.06-3.3-4.23 0-7.74 3.42-7.74 7.86s3.51 7.86 7.74 7.86c2.67 0 4.8-1.29 6.06-3.3V34h1.98V19h-1.98zm-5.91 13.44c-3.33 0-5.91-2.61-5.91-5.94 0-3.33 2.58-5.94 5.91-5.94s5.91 2.61 5.91 5.94c0 3.33-2.58 5.94-5.91 5.94zM309.01 18.64c-1.92 0-3.75.87-4.86 2.73-.84-1.74-2.46-2.73-4.56-2.73-1.8 0-3.42.72-4.59 2.55V19h-1.98v15H295v-8.31c0-3.72 2.16-5.13 4.32-5.13 2.13 0 3.51 1.41 3.51 4.08V34h1.98v-8.31c0-3.72 1.86-5.13 4.17-5.13 2.13 0 3.66 1.41 3.66 4.08V34h1.98v-9.36c0-3.75-2.31-6-5.61-6z",
-    fill: "#000"
-  }), react_1["default"].createElement("path", {
-    d: "M11.395 44.428C4.557 40.198 0 32.632 0 24 0 10.745 10.745 0 24 0a23.891 23.891 0 0113.997 4.502c-.2 17.907-11.097 33.245-26.602 39.926z",
-    fill: "#6875F5"
-  }), react_1["default"].createElement("path", {
-    d: "M14.134 45.885A23.914 23.914 0 0024 48c13.255 0 24-10.745 24-24 0-3.516-.756-6.856-2.115-9.866-4.659 15.143-16.608 27.092-31.75 31.751z",
-    fill: "#6875F5"
-  }));
-}
-
-exports["default"] = JetApplicationLogo;
 
 /***/ }),
 
@@ -11159,163 +11426,6 @@ exports["default"] = JetValidationErrors;
 
 /***/ }),
 
-/***/ "./resources/js/Jetstream/Welcome.tsx":
-/*!********************************************!*\
-  !*** ./resources/js/Jetstream/Welcome.tsx ***!
-  \********************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var ApplicationLogo_1 = __importDefault(__webpack_require__(/*! @/Jetstream/ApplicationLogo */ "./resources/js/Jetstream/ApplicationLogo.tsx"));
-
-function Welcome() {
-  return react_1["default"].createElement("div", null, react_1["default"].createElement("div", {
-    className: "p-6 sm:px-20 bg-white border-b border-gray-200"
-  }, react_1["default"].createElement("div", null, react_1["default"].createElement(ApplicationLogo_1["default"], {
-    className: "block h-12 w-auto"
-  })), react_1["default"].createElement("div", {
-    className: "mt-8 text-2xl"
-  }, "Welcome to your Jetstream application!"), react_1["default"].createElement("div", {
-    className: "mt-6 text-gray-500"
-  }, "Laravel Jetstream provides a beautiful, robust starting point for your next Laravel application. Laravel is designed to help you build your application using a development environment that is simple, powerful, and enjoyable. We believe you should love expressing your creativity through programming, so we have spent time carefully crafting the Laravel ecosystem to be a breath of fresh air. We hope you love it.")), react_1["default"].createElement("div", {
-    className: "bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2"
-  }, react_1["default"].createElement("div", {
-    className: "p-6"
-  }, react_1["default"].createElement("div", {
-    className: "flex items-center"
-  }, react_1["default"].createElement("svg", {
-    fill: "none",
-    stroke: "currentColor",
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    strokeWidth: "2",
-    viewBox: "0 0 24 24",
-    className: "w-8 h-8 text-gray-400"
-  }, react_1["default"].createElement("path", {
-    d: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-  })), react_1["default"].createElement("div", {
-    className: "ml-4 text-lg text-gray-600 leading-7 font-semibold"
-  }, react_1["default"].createElement("a", {
-    href: "https://laravel.com/docs"
-  }, "Documentation"))), react_1["default"].createElement("div", {
-    className: "ml-12"
-  }, react_1["default"].createElement("div", {
-    className: "mt-2 text-sm text-gray-500"
-  }, "Laravel has wonderful documentation covering every aspect of the framework. Whether you're new to the framework or have previous experience, we recommend reading all of the documentation from beginning to end."), react_1["default"].createElement("a", {
-    href: "https://laravel.com/docs"
-  }, react_1["default"].createElement("div", {
-    className: "mt-3 flex items-center text-sm font-semibold text-indigo-700"
-  }, react_1["default"].createElement("div", null, "Explore the documentation"), react_1["default"].createElement("div", {
-    className: "ml-1 text-indigo-500"
-  }, react_1["default"].createElement("svg", {
-    viewBox: "0 0 20 20",
-    fill: "currentColor",
-    className: "w-4 h-4"
-  }, react_1["default"].createElement("path", {
-    fillRule: "evenodd",
-    d: "M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z",
-    clipRule: "evenodd"
-  }))))))), react_1["default"].createElement("div", {
-    className: "p-6 border-t border-gray-200 md:border-t-0 md:border-l"
-  }, react_1["default"].createElement("div", {
-    className: "flex items-center"
-  }, react_1["default"].createElement("svg", {
-    fill: "none",
-    stroke: "currentColor",
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    strokeWidth: "2",
-    viewBox: "0 0 24 24",
-    className: "w-8 h-8 text-gray-400"
-  }, react_1["default"].createElement("path", {
-    d: "M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
-  }), react_1["default"].createElement("path", {
-    d: "M15 13a3 3 0 11-6 0 3 3 0 016 0z"
-  })), react_1["default"].createElement("div", {
-    className: "ml-4 text-lg text-gray-600 leading-7 font-semibold"
-  }, react_1["default"].createElement("a", {
-    href: "https://laracasts.com"
-  }, "Laracasts"))), react_1["default"].createElement("div", {
-    className: "ml-12"
-  }, react_1["default"].createElement("div", {
-    className: "mt-2 text-sm text-gray-500"
-  }, "Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process."), react_1["default"].createElement("a", {
-    href: "https://laracasts.com"
-  }, react_1["default"].createElement("div", {
-    className: "mt-3 flex items-center text-sm font-semibold text-indigo-700"
-  }, react_1["default"].createElement("div", null, "Start watching Laracasts"), react_1["default"].createElement("div", {
-    className: "ml-1 text-indigo-500"
-  }, react_1["default"].createElement("svg", {
-    viewBox: "0 0 20 20",
-    fill: "currentColor",
-    className: "w-4 h-4"
-  }, react_1["default"].createElement("path", {
-    fillRule: "evenodd",
-    d: "M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z",
-    clipRule: "evenodd"
-  }))))))), react_1["default"].createElement("div", {
-    className: "p-6 border-t border-gray-200"
-  }, react_1["default"].createElement("div", {
-    className: "flex items-center"
-  }, react_1["default"].createElement("svg", {
-    fill: "none",
-    stroke: "currentColor",
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    strokeWidth: "2",
-    viewBox: "0 0 24 24",
-    className: "w-8 h-8 text-gray-400"
-  }, react_1["default"].createElement("path", {
-    d: "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-  })), react_1["default"].createElement("div", {
-    className: "ml-4 text-lg text-gray-600 leading-7 font-semibold"
-  }, react_1["default"].createElement("a", {
-    href: "https://tailwindcss.com/"
-  }, "Tailwind"))), react_1["default"].createElement("div", {
-    className: "ml-12"
-  }, react_1["default"].createElement("div", {
-    className: "mt-2 text-sm text-gray-500"
-  }, "Laravel Jetstream is built with Tailwind, an amazing utility first CSS framework that doesn't get in your way. You'll be amazed how easily you can build and maintain fresh, modern designs with this wonderful framework at your fingertips."))), react_1["default"].createElement("div", {
-    className: "p-6 border-t border-gray-200 md:border-l"
-  }, react_1["default"].createElement("div", {
-    className: "flex items-center"
-  }, react_1["default"].createElement("svg", {
-    fill: "none",
-    stroke: "currentColor",
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    strokeWidth: "2",
-    viewBox: "0 0 24 24",
-    className: "w-8 h-8 text-gray-400"
-  }, react_1["default"].createElement("path", {
-    d: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-  })), react_1["default"].createElement("div", {
-    className: "ml-4 text-lg text-gray-600 leading-7 font-semibold"
-  }, "Authentication")), react_1["default"].createElement("div", {
-    className: "ml-12"
-  }, react_1["default"].createElement("div", {
-    className: "mt-2 text-sm text-gray-500"
-  }, "Authentication and registration views are included with Laravel Jetstream, as well as support for user email verification and resetting forgotten passwords. So, you're free to get started what matters most: building your application.")))));
-}
-
-exports["default"] = Welcome;
-
-/***/ }),
-
 /***/ "./resources/js/Layouts/AppLayout.tsx":
 /*!********************************************!*\
   !*** ./resources/js/Layouts/AppLayout.tsx ***!
@@ -11335,8 +11445,7 @@ Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
 
-var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js"); // @ts-ignore
-
+var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
 
 var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
 
@@ -11385,9 +11494,7 @@ var navigation = [{
 }];
 
 function AppLayout(_a) {
-  var title = _a.title,
-      renderHeader = _a.renderHeader,
-      children = _a.children;
+  var children = _a.children;
   var route = (0, useRoute_1["default"])();
 
   function logout(e) {
@@ -11410,82 +11517,7 @@ function AppLayout(_a) {
     }), route.text && react_1["default"].createElement("span", null, route.text)));
   }))), react_1["default"].createElement("div", {
     className: 'w-[40%] text-white'
-  }, react_1["default"].createElement("div", {
-    className: 'flex items-center justify-between p-4 border-b border-gray-50'
-  }, react_1["default"].createElement("h2", {
-    className: 'text-xl font-semibold'
-  }, "Home"), react_1["default"].createElement(outline_1.StarIcon, {
-    className: 'w-6 h-6'
-  })), react_1["default"].createElement("div", {
-    className: 'flex p-4 border-b border-gray-50'
-  }, react_1["default"].createElement("div", {
-    className: 'pr-4'
-  }, react_1["default"].createElement("img", {
-    src: "https://via.placeholder.com/100",
-    alt: "",
-    className: 'rounded-full w-12 h-12'
-  })), react_1["default"].createElement("div", {
-    className: 'flex-1'
-  }, react_1["default"].createElement("textarea", {
-    className: 'w-full bg-transparent resize-none border-0 rounded',
-    placeholder: "What's happening?"
-  }), react_1["default"].createElement("div", {
-    className: 'flex items-center justify-between'
-  }, react_1["default"].createElement("div", {
-    className: "flex items-center space-x-2 text-blue-400"
-  }, react_1["default"].createElement("button", {
-    className: 'border-0 bg-none'
-  }, react_1["default"].createElement(outline_1.PhotographIcon, {
-    className: 'w-6 h-6'
-  })), react_1["default"].createElement("button", {
-    className: 'border-0 bg-none'
-  }, react_1["default"].createElement(outline_1.PhotographIcon, {
-    className: 'w-6 h-6'
-  })), react_1["default"].createElement("button", {
-    className: 'border-0 bg-none'
-  }, react_1["default"].createElement(outline_1.PhotographIcon, {
-    className: 'w-6 h-6'
-  })), react_1["default"].createElement("button", {
-    className: 'border-0 bg-none'
-  }, react_1["default"].createElement(outline_1.PhotographIcon, {
-    className: 'w-6 h-6'
-  }))), react_1["default"].createElement("button", {
-    className: 'rounded-full px-6 py-2 bg-blue-400 border-0 font-bold'
-  }, "Tweet")))), react_1["default"].createElement("div", {
-    className: 'flex p-4'
-  }, react_1["default"].createElement("div", {
-    className: 'pr-4'
-  }, react_1["default"].createElement("img", {
-    src: "https://via.placeholder.com/100",
-    alt: "",
-    className: 'block rounded-full w-12 h-12'
-  })), react_1["default"].createElement("div", {
-    className: 'flex-1'
-  }, react_1["default"].createElement("div", {
-    className: 'flex items-center space-x-1'
-  }, react_1["default"].createElement("span", {
-    className: 'font-bold'
-  }, "Ozzie Neher"), react_1["default"].createElement("span", {
-    className: 'text-gray-400'
-  }, "@ozzieneher")), react_1["default"].createElement("p", null, "Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim, ad harum officiis, magni esse tempora quaerat, ipsam consequuntur numquam amet quidem mollitia! Quia aut cumque a tempore veniam nulla quis?"), react_1["default"].createElement("div", {
-    className: 'mt-2 flex items-center justify-between text-gray-400 w-3/4 text-sm'
-  }, react_1["default"].createElement("button", {
-    className: 'flex items-center space-x-4 hover:text-blue-400'
-  }, react_1["default"].createElement(outline_1.ChatIcon, {
-    className: 'w-4 h-4'
-  }), react_1["default"].createElement("span", null, "27")), react_1["default"].createElement("button", {
-    className: 'flex items-center space-x-4 hover:text-red-400'
-  }, react_1["default"].createElement(outline_1.HeartIcon, {
-    className: 'w-4 h-4'
-  }), react_1["default"].createElement("span", null, "100")), react_1["default"].createElement("button", {
-    className: 'flex items-center space-x-4 hover:text-green-400'
-  }, react_1["default"].createElement(outline_1.RefreshIcon, {
-    className: 'w-4 h-4'
-  }), react_1["default"].createElement("span", null, "100")), react_1["default"].createElement("button", {
-    className: 'flex items-center space-x-4 hover:text-blue-400'
-  }, react_1["default"].createElement(outline_1.ShareIcon, {
-    className: 'w-4 h-4'
-  })))))), react_1["default"].createElement("div", {
+  }, children), react_1["default"].createElement("div", {
     className: 'flex-1 border-l border-gray-50'
   }));
 }
@@ -12356,10 +12388,10 @@ exports["default"] = VerifyEmail;
 
 /***/ }),
 
-/***/ "./resources/js/Pages/Dashboard.tsx":
-/*!******************************************!*\
-  !*** ./resources/js/Pages/Dashboard.tsx ***!
-  \******************************************/
+/***/ "./resources/js/Pages/Home.tsx":
+/*!*************************************!*\
+  !*** ./resources/js/Pages/Home.tsx ***!
+  \*************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -12377,28 +12409,82 @@ Object.defineProperty(exports, "__esModule", ({
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
-var Welcome_1 = __importDefault(__webpack_require__(/*! @/Jetstream/Welcome */ "./resources/js/Jetstream/Welcome.tsx"));
-
 var AppLayout_1 = __importDefault(__webpack_require__(/*! @/Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.tsx"));
 
-function Dashboard() {
+var outline_1 = __webpack_require__(/*! @heroicons/react/outline */ "./node_modules/@heroicons/react/outline/esm/index.js");
+
+var TweetForm_1 = __importDefault(__webpack_require__(/*! @/Components/TweetForm */ "./resources/js/Components/TweetForm.tsx"));
+
+var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+
+function Home(_a) {
+  var tweets = _a.tweets;
+
+  function onTweetCreated(tweet) {
+    inertia_1.Inertia.reload({
+      preserveScroll: true
+    });
+  }
+
   return react_1["default"].createElement(AppLayout_1["default"], {
-    title: "Dashboard",
-    renderHeader: function renderHeader() {
-      return react_1["default"].createElement("h2", {
-        className: "font-semibold text-xl text-gray-800 leading-tight"
-      }, "Dashboard");
-    }
+    title: "Home"
   }, react_1["default"].createElement("div", {
-    className: "py-12"
-  }, react_1["default"].createElement("div", {
-    className: "max-w-7xl mx-auto sm:px-6 lg:px-8"
-  }, react_1["default"].createElement("div", {
-    className: "bg-white overflow-hidden shadow-xl sm:rounded-lg"
-  }, react_1["default"].createElement(Welcome_1["default"], null)))));
+    className: 'flex items-center justify-between p-4 border-b border-gray-50'
+  }, react_1["default"].createElement("h2", {
+    className: 'text-xl font-semibold'
+  }, "Home"), react_1["default"].createElement(outline_1.StarIcon, {
+    className: 'w-6 h-6'
+  })), react_1["default"].createElement("div", {
+    className: "border-b border-gray-50"
+  }, react_1["default"].createElement(TweetForm_1["default"], {
+    onCreate: onTweetCreated
+  })), react_1["default"].createElement("div", {
+    className: 'divide-y divide-gray-50'
+  }, tweets.map(function (tweet) {
+    return react_1["default"].createElement("div", {
+      className: 'flex p-4',
+      key: tweet.id
+    }, react_1["default"].createElement("div", {
+      className: 'pr-4'
+    }, react_1["default"].createElement("img", {
+      src: "https://via.placeholder.com/100",
+      alt: "",
+      className: 'block rounded-full w-12 h-12'
+    })), react_1["default"].createElement("div", {
+      className: 'flex-1'
+    }, react_1["default"].createElement("div", {
+      className: 'flex items-center space-x-1'
+    }, react_1["default"].createElement("span", {
+      className: 'font-bold'
+    }, tweet.user.name), react_1["default"].createElement("span", {
+      className: 'text-gray-400'
+    }, "@", tweet.user.username)), tweet.body.split('\n').map(function (text, i) {
+      return react_1["default"].createElement("p", {
+        key: i
+      }, text);
+    }), react_1["default"].createElement("div", {
+      className: 'mt-2 flex items-center justify-between text-gray-400 w-3/4 text-sm'
+    }, react_1["default"].createElement("button", {
+      className: 'flex items-center space-x-4 hover:text-blue-400'
+    }, react_1["default"].createElement(outline_1.ChatIcon, {
+      className: 'w-4 h-4'
+    }), react_1["default"].createElement("span", null, "0")), react_1["default"].createElement("button", {
+      className: 'flex items-center space-x-4 hover:text-red-400'
+    }, react_1["default"].createElement(outline_1.HeartIcon, {
+      className: 'w-4 h-4'
+    }), react_1["default"].createElement("span", null, "0")), react_1["default"].createElement("button", {
+      className: 'flex items-center space-x-4 hover:text-green-400'
+    }, react_1["default"].createElement(outline_1.RefreshIcon, {
+      className: 'w-4 h-4'
+    }), react_1["default"].createElement("span", null, "0")), react_1["default"].createElement("button", {
+      className: 'flex items-center space-x-4 hover:text-blue-400'
+    }, react_1["default"].createElement(outline_1.ShareIcon, {
+      className: 'w-4 h-4'
+    })))));
+  })));
 }
 
-exports["default"] = Dashboard;
+exports["default"] = Home;
 
 /***/ }),
 
@@ -64810,7 +64896,7 @@ var map = {
 	"./Auth/ResetPassword.tsx": "./resources/js/Pages/Auth/ResetPassword.tsx",
 	"./Auth/TwoFactorChallenge.tsx": "./resources/js/Pages/Auth/TwoFactorChallenge.tsx",
 	"./Auth/VerifyEmail.tsx": "./resources/js/Pages/Auth/VerifyEmail.tsx",
-	"./Dashboard.tsx": "./resources/js/Pages/Dashboard.tsx",
+	"./Home.tsx": "./resources/js/Pages/Home.tsx",
 	"./PrivacyPolicy.tsx": "./resources/js/Pages/PrivacyPolicy.tsx",
 	"./Profile/Show.tsx": "./resources/js/Pages/Profile/Show.tsx",
 	"./TermsOfService.tsx": "./resources/js/Pages/TermsOfService.tsx",
