@@ -16,6 +16,7 @@ export default function Register() {
   const route = useRoute();
   const form = useForm({
     name: '',
+    username: '',
     email: '',
     password: '',
     password_confirmation: '',
@@ -59,6 +60,19 @@ export default function Register() {
             value={form.data.email}
             onChange={e => form.setData('email', e.currentTarget.value)}
             required
+          />
+        </div>
+
+        <div className="mt-4">
+          <JetLabel htmlFor="email">Username</JetLabel>
+          <JetInput
+            id="username"
+            type="text"
+            className="mt-1 block w-full"
+            value={form.data.username}
+            onChange={e => form.setData('username', e.currentTarget.value)}
+            required
+            placeholder={'@elonmusk'}
           />
         </div>
 
