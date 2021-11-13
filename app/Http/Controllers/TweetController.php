@@ -31,7 +31,7 @@ class TweetController extends Controller
   public function show(Tweet $tweet)
   {
     return Inertia::render('Tweets/Show', [
-      'tweet' => $tweet->load('user'),
+      'tweet' => Tweet::withFeedData()->find($tweet->id),
     ]);
   }
 

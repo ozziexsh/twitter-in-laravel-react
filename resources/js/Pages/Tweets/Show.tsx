@@ -1,11 +1,11 @@
 import React from 'react';
 import AppLayout from '@/Layouts/AppLayout';
 import { StarIcon } from '@heroicons/react/outline';
-import { Tweet, User } from '@/types';
+import { FeedTweet } from '@/types';
 import TweetCard from '@/Components/TweetCard';
 
 interface Props {
-  tweet: Tweet & { user: User };
+  tweet: FeedTweet;
 }
 
 export default function TweetsShow({ tweet }: Props) {
@@ -20,7 +20,7 @@ export default function TweetsShow({ tweet }: Props) {
         <StarIcon className={'w-6 h-6'} />
       </div>
 
-      <TweetCard key={tweet.id} tweet={tweet} user={tweet.user} />
+      <TweetCard key={tweet.id} tweet={tweet} />
     </AppLayout>
   );
 }
