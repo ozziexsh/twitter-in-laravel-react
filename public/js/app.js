@@ -8514,6 +8514,196 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Components/TweetCard.tsx":
+/*!***********************************************!*\
+  !*** ./resources/js/Components/TweetCard.tsx ***!
+  \***********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var useAxios_1 = __importDefault(__webpack_require__(/*! @/Hooks/useAxios */ "./resources/js/Hooks/useAxios.ts"));
+
+var useRoute_1 = __importDefault(__webpack_require__(/*! @/Hooks/useRoute */ "./resources/js/Hooks/useRoute.ts"));
+
+var outline_1 = __webpack_require__(/*! @heroicons/react/outline */ "./node_modules/@heroicons/react/outline/esm/index.js");
+
+var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+
+var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+
+var classnames_1 = __importDefault(__webpack_require__(/*! classnames */ "./node_modules/classnames/index.js"));
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var ButtonColor;
+
+(function (ButtonColor) {
+  ButtonColor[ButtonColor["green"] = 0] = "green";
+  ButtonColor[ButtonColor["brand"] = 1] = "brand";
+  ButtonColor[ButtonColor["red"] = 2] = "red";
+})(ButtonColor || (ButtonColor = {}));
+
+function TweetButton(_a) {
+  var _b, _c, _d, _e, _f;
+
+  var icon = _a.icon,
+      label = _a.label,
+      color = _a.color,
+      onClick = _a.onClick,
+      active = _a.active;
+  var bgClass = (_b = {}, _b[ButtonColor.brand] = 'group-hover:bg-brand', _b[ButtonColor.green] = 'group-hover:bg-green-400', _b[ButtonColor.red] = 'group-hover:bg-red-400', _b);
+  var textClass = (_c = {}, _c[ButtonColor.brand] = 'group-hover:text-brand', _c[ButtonColor.green] = 'group-hover:text-green-400', _c[ButtonColor.red] = 'group-hover:text-red-400', _c);
+  var activeTextClass = (_d = {}, _d[ButtonColor.brand] = 'text-brand', _d[ButtonColor.green] = 'text-green-400', _d[ButtonColor.red] = 'text-red-400', _d);
+  return react_1["default"].createElement("div", {
+    className: '-ml-2 mt-1 flex items-center justify-between text-gray-400 w-3/4 text-sm'
+  }, react_1["default"].createElement("button", {
+    className: 'flex items-center space-x-1 group transition-all',
+    onClick: onClick
+  }, react_1["default"].createElement("span", {
+    className: (0, classnames_1["default"])('p-2 rounded-full transition-all group-hover:bg-opacity-10', bgClass[color], textClass[color], (_e = {}, _e[activeTextClass[color]] = active, _e))
+  }, react_1["default"].createElement(icon, {
+    className: 'w-4 h-4'
+  })), label !== undefined && react_1["default"].createElement("span", {
+    className: (0, classnames_1["default"])('transition-all', textClass[color], (_f = {}, _f[activeTextClass[color]] = active, _f))
+  }, label)));
+}
+
+function TweetCard(_a) {
+  var tweet = _a.tweet;
+  var user = tweet.user,
+      likes_count = tweet.likes_count;
+  var route = (0, useRoute_1["default"])();
+  var axios = (0, useAxios_1["default"])();
+
+  var _b = (0, react_1.useState)(tweet.liked),
+      liked = _b[0],
+      setLiked = _b[1];
+
+  var _c = (0, react_1.useState)(likes_count),
+      likes = _c[0],
+      setLikes = _c[1];
+
+  function onTweetClick(e) {
+    inertia_1.Inertia.visit(route('tweets.show', [tweet]));
+  }
+
+  function onUsernameClick(e) {
+    e.stopPropagation();
+  }
+
+  function onLikeClick(e) {
+    e.stopPropagation();
+
+    if (liked) {
+      axios["delete"](route('tweets.likes.destroy', [tweet]));
+      setLiked(false);
+      setLikes(function (l) {
+        return l - 1;
+      });
+    } else {
+      axios.post(route('tweets.likes.store', [tweet]));
+      setLiked(true);
+      setLikes(function (l) {
+        return l + 1;
+      });
+    }
+  }
+
+  return react_1["default"].createElement("div", {
+    className: 'flex p-4 cursor-pointer hover:bg-white hover:bg-opacity-10',
+    onClick: onTweetClick
+  }, react_1["default"].createElement("div", {
+    className: 'pr-4'
+  }, react_1["default"].createElement("img", {
+    src: "https://via.placeholder.com/100",
+    alt: "",
+    className: 'block rounded-full w-10 h-10'
+  })), react_1["default"].createElement("div", {
+    className: 'flex-1'
+  }, react_1["default"].createElement(inertia_react_1.InertiaLink, {
+    href: route('users.show', [user]),
+    onClick: onUsernameClick,
+    className: 'inline-flex items-center space-x-1 text-sm'
+  }, react_1["default"].createElement("span", {
+    className: 'font-bold'
+  }, user.name), react_1["default"].createElement("span", {
+    className: 'text-gray-400'
+  }, "@", user.username)), tweet.body.split('\n').map(function (text, i) {
+    return react_1["default"].createElement("p", {
+      key: i
+    }, text);
+  }), react_1["default"].createElement("div", {
+    className: '-ml-2 mt-1 flex items-center justify-between text-gray-400 w-3/4 text-sm'
+  }, react_1["default"].createElement(TweetButton, {
+    icon: outline_1.ChatIcon,
+    label: 0,
+    color: ButtonColor.brand
+  }), react_1["default"].createElement(TweetButton, {
+    icon: outline_1.HeartIcon,
+    label: likes,
+    color: ButtonColor.red,
+    onClick: onLikeClick,
+    active: liked
+  }), react_1["default"].createElement(TweetButton, {
+    icon: outline_1.RefreshIcon,
+    label: 0,
+    color: ButtonColor.green
+  }), react_1["default"].createElement(TweetButton, {
+    icon: outline_1.ShareIcon,
+    color: ButtonColor.brand
+  }))));
+}
+
+exports["default"] = TweetCard;
+
+/***/ }),
+
 /***/ "./resources/js/Components/TweetForm.tsx":
 /*!***********************************************!*\
   !*** ./resources/js/Components/TweetForm.tsx ***!
@@ -8775,27 +8965,27 @@ function TweetForm(_a) {
   }), react_1["default"].createElement("div", {
     className: 'flex items-center justify-between'
   }, react_1["default"].createElement("div", {
-    className: "flex items-center space-x-2 text-blue-400"
+    className: "flex items-center space-x-2 text-brand"
   }, react_1["default"].createElement("button", {
     className: 'border-0 bg-none'
   }, react_1["default"].createElement(outline_1.PhotographIcon, {
-    className: 'w-6 h-6'
+    className: 'w-5 h-5'
   })), react_1["default"].createElement("button", {
     className: 'border-0 bg-none'
-  }, react_1["default"].createElement(outline_1.PhotographIcon, {
-    className: 'w-6 h-6'
+  }, react_1["default"].createElement(outline_1.ChartBarIcon, {
+    className: 'w-5 h-5'
   })), react_1["default"].createElement("button", {
     className: 'border-0 bg-none'
-  }, react_1["default"].createElement(outline_1.PhotographIcon, {
-    className: 'w-6 h-6'
+  }, react_1["default"].createElement(outline_1.EmojiHappyIcon, {
+    className: 'w-5 h-5'
   })), react_1["default"].createElement("button", {
     className: 'border-0 bg-none'
-  }, react_1["default"].createElement(outline_1.PhotographIcon, {
-    className: 'w-6 h-6'
+  }, react_1["default"].createElement(outline_1.ClockIcon, {
+    className: 'w-5 h-5'
   }))), react_1["default"].createElement("div", {
     className: 'flex items-center space-x-2'
   }, body && react_1["default"].createElement("span", null, body.length, " / 240"), react_1["default"].createElement("button", {
-    className: 'rounded-full px-6 py-2 bg-blue-400 border-0 font-bold',
+    className: 'rounded-full px-4 py-2 bg-brand border-0 font-bold',
     onClick: create
   }, "Tweet")))));
 }
@@ -11455,47 +11645,49 @@ var useRoute_1 = __importDefault(__webpack_require__(/*! @/Hooks/useRoute */ "./
 
 var outline_1 = __webpack_require__(/*! @heroicons/react/outline */ "./node_modules/@heroicons/react/outline/esm/index.js");
 
-var navigation = [{
-  text: '',
-  icon: outline_1.SunIcon,
-  href: '/home'
-}, {
-  text: 'Home',
-  icon: outline_1.HomeIcon,
-  href: '/home'
-}, {
-  text: 'Explore',
-  icon: outline_1.HashtagIcon,
-  href: '/explore'
-}, {
-  text: 'Notifications',
-  icon: outline_1.BellIcon,
-  href: '/notifications'
-}, {
-  text: 'Messages',
-  icon: outline_1.MailIcon,
-  href: '/messages'
-}, {
-  text: 'Bookmarks',
-  icon: outline_1.BookmarkIcon,
-  href: '/bookmarks'
-}, {
-  text: 'Lists',
-  icon: outline_1.ViewListIcon,
-  href: '/lists'
-}, {
-  text: 'Profile',
-  icon: outline_1.UserIcon,
-  href: '/profile'
-}, {
-  text: 'Settings',
-  icon: outline_1.DotsCircleHorizontalIcon,
-  href: '/settings'
-}];
+var useTypedPage_1 = __importDefault(__webpack_require__(/*! @/Hooks/useTypedPage */ "./resources/js/Hooks/useTypedPage.ts"));
 
 function AppLayout(_a) {
   var children = _a.children;
   var route = (0, useRoute_1["default"])();
+  var page = (0, useTypedPage_1["default"])();
+  var navigation = [{
+    text: '',
+    icon: outline_1.SunIcon,
+    href: '/home'
+  }, {
+    text: 'Home',
+    icon: outline_1.HomeIcon,
+    href: '/home'
+  }, {
+    text: 'Explore',
+    icon: outline_1.HashtagIcon,
+    href: '/explore'
+  }, {
+    text: 'Notifications',
+    icon: outline_1.BellIcon,
+    href: '/notifications'
+  }, {
+    text: 'Messages',
+    icon: outline_1.MailIcon,
+    href: '/messages'
+  }, {
+    text: 'Bookmarks',
+    icon: outline_1.BookmarkIcon,
+    href: '/bookmarks'
+  }, {
+    text: 'Lists',
+    icon: outline_1.ViewListIcon,
+    href: '/lists'
+  }, {
+    text: 'Profile',
+    icon: outline_1.UserIcon,
+    href: route('users.show', [page.props.user])
+  }, {
+    text: 'More',
+    icon: outline_1.DotsCircleHorizontalIcon,
+    href: '/settings'
+  }];
 
   function logout(e) {
     e.preventDefault();
@@ -11503,12 +11695,12 @@ function AppLayout(_a) {
   }
 
   return react_1["default"].createElement("div", {
-    className: 'bg-black h-screen overflow-scroll flex items-stretch'
+    className: 'bg-black h-screen flex items-stretch'
   }, react_1["default"].createElement("div", {
-    className: 'border-r border-gray-50 px-24 pr-24'
+    className: 'border-r border-divider px-24 pr-24'
   }, react_1["default"].createElement("ul", null, navigation.map(function (route) {
     return react_1["default"].createElement("li", {
-      key: route.href
+      key: route.text
     }, react_1["default"].createElement(inertia_react_1.InertiaLink, {
       href: route.href,
       className: 'text-white text-xl font-semibold inline-flex items-center space-x-4 p-4 rounded-full hover:bg-white hover:bg-opacity-10'
@@ -11516,9 +11708,9 @@ function AppLayout(_a) {
       className: 'w-6 h-6'
     }), route.text && react_1["default"].createElement("span", null, route.text)));
   }))), react_1["default"].createElement("div", {
-    className: 'w-[40%] text-white'
+    className: 'w-[40%] text-white overflow-scroll'
   }, children), react_1["default"].createElement("div", {
-    className: 'flex-1 border-l border-gray-50'
+    className: 'flex-1 border-l border-divider'
   }));
 }
 
@@ -12417,6 +12609,8 @@ var TweetForm_1 = __importDefault(__webpack_require__(/*! @/Components/TweetForm
 
 var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
 
+var TweetCard_1 = __importDefault(__webpack_require__(/*! @/Components/TweetCard */ "./resources/js/Components/TweetCard.tsx"));
+
 function Home(_a) {
   var tweets = _a.tweets;
 
@@ -12429,58 +12623,22 @@ function Home(_a) {
   return react_1["default"].createElement(AppLayout_1["default"], {
     title: "Home"
   }, react_1["default"].createElement("div", {
-    className: 'flex items-center justify-between p-4 border-b border-gray-50'
+    className: 'flex items-center justify-between p-4 border-b border-divider'
   }, react_1["default"].createElement("h2", {
     className: 'text-xl font-semibold'
   }, "Home"), react_1["default"].createElement(outline_1.StarIcon, {
     className: 'w-6 h-6'
   })), react_1["default"].createElement("div", {
-    className: "border-b border-gray-50"
+    className: "border-b border-divider"
   }, react_1["default"].createElement(TweetForm_1["default"], {
     onCreate: onTweetCreated
   })), react_1["default"].createElement("div", {
-    className: 'divide-y divide-gray-50'
+    className: 'divide-y divide-divider'
   }, tweets.map(function (tweet) {
-    return react_1["default"].createElement("div", {
-      className: 'flex p-4',
-      key: tweet.id
-    }, react_1["default"].createElement("div", {
-      className: 'pr-4'
-    }, react_1["default"].createElement("img", {
-      src: "https://via.placeholder.com/100",
-      alt: "",
-      className: 'block rounded-full w-12 h-12'
-    })), react_1["default"].createElement("div", {
-      className: 'flex-1'
-    }, react_1["default"].createElement("div", {
-      className: 'flex items-center space-x-1'
-    }, react_1["default"].createElement("span", {
-      className: 'font-bold'
-    }, tweet.user.name), react_1["default"].createElement("span", {
-      className: 'text-gray-400'
-    }, "@", tweet.user.username)), tweet.body.split('\n').map(function (text, i) {
-      return react_1["default"].createElement("p", {
-        key: i
-      }, text);
-    }), react_1["default"].createElement("div", {
-      className: 'mt-2 flex items-center justify-between text-gray-400 w-3/4 text-sm'
-    }, react_1["default"].createElement("button", {
-      className: 'flex items-center space-x-4 hover:text-blue-400'
-    }, react_1["default"].createElement(outline_1.ChatIcon, {
-      className: 'w-4 h-4'
-    }), react_1["default"].createElement("span", null, "0")), react_1["default"].createElement("button", {
-      className: 'flex items-center space-x-4 hover:text-red-400'
-    }, react_1["default"].createElement(outline_1.HeartIcon, {
-      className: 'w-4 h-4'
-    }), react_1["default"].createElement("span", null, "0")), react_1["default"].createElement("button", {
-      className: 'flex items-center space-x-4 hover:text-green-400'
-    }, react_1["default"].createElement(outline_1.RefreshIcon, {
-      className: 'w-4 h-4'
-    }), react_1["default"].createElement("span", null, "0")), react_1["default"].createElement("button", {
-      className: 'flex items-center space-x-4 hover:text-blue-400'
-    }, react_1["default"].createElement(outline_1.ShareIcon, {
-      className: 'w-4 h-4'
-    })))));
+    return react_1["default"].createElement(TweetCard_1["default"], {
+      key: tweet.id,
+      tweet: tweet
+    });
   })));
 }
 
@@ -12649,6 +12807,450 @@ function TermsOfService(_a) {
 }
 
 exports["default"] = TermsOfService;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Tweets/Show.tsx":
+/*!********************************************!*\
+  !*** ./resources/js/Pages/Tweets/Show.tsx ***!
+  \********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var AppLayout_1 = __importDefault(__webpack_require__(/*! @/Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.tsx"));
+
+var outline_1 = __webpack_require__(/*! @heroicons/react/outline */ "./node_modules/@heroicons/react/outline/esm/index.js");
+
+var TweetCard_1 = __importDefault(__webpack_require__(/*! @/Components/TweetCard */ "./resources/js/Components/TweetCard.tsx"));
+
+function TweetsShow(_a) {
+  var tweet = _a.tweet;
+  return react_1["default"].createElement(AppLayout_1["default"], {
+    title: "Home"
+  }, react_1["default"].createElement("div", {
+    className: 'flex items-center justify-between p-4 border-b border-divider'
+  }, react_1["default"].createElement("h2", {
+    className: 'text-xl font-semibold'
+  }, "Home"), react_1["default"].createElement(outline_1.StarIcon, {
+    className: 'w-6 h-6'
+  })), react_1["default"].createElement(TweetCard_1["default"], {
+    key: tweet.id,
+    tweet: tweet,
+    user: tweet.user
+  }));
+}
+
+exports["default"] = TweetsShow;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Users/Show.tsx":
+/*!*******************************************!*\
+  !*** ./resources/js/Pages/Users/Show.tsx ***!
+  \*******************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var AppLayout_1 = __importDefault(__webpack_require__(/*! @/Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.tsx"));
+
+var outline_1 = __webpack_require__(/*! @heroicons/react/outline */ "./node_modules/@heroicons/react/outline/esm/index.js");
+
+var TweetCard_1 = __importDefault(__webpack_require__(/*! @/Components/TweetCard */ "./resources/js/Components/TweetCard.tsx"));
+
+var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+
+var useRoute_1 = __importDefault(__webpack_require__(/*! @/Hooks/useRoute */ "./resources/js/Hooks/useRoute.ts"));
+
+var useAxios_1 = __importDefault(__webpack_require__(/*! @/Hooks/useAxios */ "./resources/js/Hooks/useAxios.ts"));
+
+var useTypedPage_1 = __importDefault(__webpack_require__(/*! @/Hooks/useTypedPage */ "./resources/js/Hooks/useTypedPage.ts"));
+
+function UsersShow(_a) {
+  var tweets = _a.tweets,
+      profile = _a.profile,
+      following = _a.following,
+      followers_count = _a.followers_count,
+      following_count = _a.following_count;
+
+  var _b = (0, react_1.useState)(following),
+      isFollowing = _b[0],
+      setIsFollowing = _b[1];
+
+  var _c = (0, react_1.useState)(followers_count),
+      followersCount = _c[0],
+      setFollowersCount = _c[1];
+
+  var _d = (0, react_1.useState)(following_count),
+      followingCount = _d[0],
+      setFollowingCount = _d[1];
+
+  var route = (0, useRoute_1["default"])();
+  var axios = (0, useAxios_1["default"])();
+  var user = (0, useTypedPage_1["default"])().props.user;
+
+  function follow() {
+    return __awaiter(this, void 0, void 0, function () {
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            return [4
+            /*yield*/
+            , axios.post(route('users.followers.store', [profile]))];
+
+          case 1:
+            _a.sent();
+
+            setIsFollowing(true);
+            setFollowersCount(function (f) {
+              return f + 1;
+            });
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  }
+
+  function unfollow() {
+    return __awaiter(this, void 0, void 0, function () {
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            return [4
+            /*yield*/
+            , axios["delete"](route('users.followers.destroy', [profile]))];
+
+          case 1:
+            _a.sent();
+
+            setIsFollowing(false);
+            setFollowersCount(function (f) {
+              return f - 1;
+            });
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  }
+
+  return react_1["default"].createElement(AppLayout_1["default"], {
+    title: profile.name + " (" + profile.username + ")"
+  }, react_1["default"].createElement("div", {
+    className: 'flex items-center justify-between p-4 border-b border-divider'
+  }, react_1["default"].createElement("div", {
+    className: 'flex items-center space-x-4'
+  }, react_1["default"].createElement(outline_1.ArrowLeftIcon, {
+    className: 'w-6 h-6'
+  }), react_1["default"].createElement("div", null, react_1["default"].createElement("h2", {
+    className: 'text-xl font-semibold'
+  }, profile.name), react_1["default"].createElement("p", {
+    className: 'text-gray-400'
+  }, tweets.length, " tweets")))), react_1["default"].createElement("div", null, react_1["default"].createElement("div", {
+    className: "bg-gray-400 h-48"
+  }), react_1["default"].createElement("div", {
+    className: 'relative px-4'
+  }, react_1["default"].createElement("div", {
+    className: 'relative flex justify-between pt-4'
+  }, react_1["default"].createElement("img", {
+    src: "https://via.placeholder.com/250",
+    alt: "",
+    className: 'rounded-full absolute left-0 border-4 border-black block w-1/5',
+    style: {
+      transform: 'translateY(-50%)'
+    }
+  }), react_1["default"].createElement("div", null), react_1["default"].createElement("div", null, function () {
+    if ((user === null || user === void 0 ? void 0 : user.id) === profile.id) {
+      return react_1["default"].createElement("button", null, "Edit Profile");
+    }
+
+    if (isFollowing) {
+      return react_1["default"].createElement("button", {
+        onClick: unfollow
+      }, "Unfollow");
+    }
+
+    return react_1["default"].createElement("button", {
+      onClick: follow
+    }, "Follow");
+  }())), react_1["default"].createElement("h2", {
+    className: 'font-bold text-lg pt-16'
+  }, profile.name), react_1["default"].createElement("p", {
+    className: 'text-gray-400 text-sm'
+  }, "@", profile.username), react_1["default"].createElement("p", {
+    className: 'mt-2 leading-tight'
+  }, "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, numquam tempore, aliquam reprehenderit laboriosam"), react_1["default"].createElement("div", {
+    className: 'flex items-center space-x-4 text-gray-400 mt-2'
+  }, react_1["default"].createElement("div", {
+    className: 'flex items-center space-x-1'
+  }, react_1["default"].createElement(outline_1.LocationMarkerIcon, {
+    className: 'w-4 h-4'
+  }), react_1["default"].createElement("span", null, "Canada")), react_1["default"].createElement("div", {
+    className: 'flex items-center space-x-1'
+  }, react_1["default"].createElement(outline_1.LinkIcon, {
+    className: 'w-4 h-4'
+  }), react_1["default"].createElement(inertia_react_1.InertiaLink, {
+    className: 'text-brand',
+    href: '#'
+  }, "ozzie.sh")), react_1["default"].createElement("div", {
+    className: 'flex items-center space-x-1'
+  }, react_1["default"].createElement(outline_1.CalendarIcon, {
+    className: 'w-4 h-4'
+  }), react_1["default"].createElement("span", null, "Joined ", profile.created_at.substr(0, 10)))), react_1["default"].createElement("div", {
+    className: 'flex items-center space-x-4 mt-2'
+  }, react_1["default"].createElement("div", {
+    className: 'flex items-center space-x-1'
+  }, react_1["default"].createElement("span", {
+    className: 'font-bold'
+  }, followingCount), react_1["default"].createElement("span", {
+    className: 'text-gray-400'
+  }, "Following")), react_1["default"].createElement("div", {
+    className: 'flex items-center space-x-1'
+  }, react_1["default"].createElement("span", {
+    className: 'font-bold'
+  }, followersCount), react_1["default"].createElement("span", {
+    className: 'text-gray-400'
+  }, "Followers"))))), react_1["default"].createElement("div", {
+    className: 'flex border-b border-divider mt-4'
+  }, [{
+    text: 'Tweets',
+    active: true
+  }, {
+    text: 'Tweets & Replies',
+    active: false
+  }, {
+    text: 'Media',
+    active: false
+  }, {
+    text: 'Likes',
+    active: false
+  }].map(function (item) {
+    return react_1["default"].createElement("button", {
+      className: 'flex-grow hover:bg-white hover:bg-opacity-10 text-gray-400 font-bold h-14',
+      key: item.text
+    }, react_1["default"].createElement("div", {
+      className: 'relative inline-flex items-center h-full'
+    }, react_1["default"].createElement("span", null, item.text), item.active && react_1["default"].createElement("div", {
+      className: 'bg-brand h-1 rounded w-full absolute bottom-0 left-0'
+    })));
+  })), react_1["default"].createElement("div", {
+    className: 'divide-y divide-divider'
+  }, tweets.map(function (tweet) {
+    return react_1["default"].createElement(TweetCard_1["default"], {
+      key: tweet.id,
+      tweet: tweet
+    });
+  })));
+}
+
+exports["default"] = UsersShow;
 
 /***/ }),
 
@@ -64900,6 +65502,8 @@ var map = {
 	"./PrivacyPolicy.tsx": "./resources/js/Pages/PrivacyPolicy.tsx",
 	"./Profile/Show.tsx": "./resources/js/Pages/Profile/Show.tsx",
 	"./TermsOfService.tsx": "./resources/js/Pages/TermsOfService.tsx",
+	"./Tweets/Show.tsx": "./resources/js/Pages/Tweets/Show.tsx",
+	"./Users/Show.tsx": "./resources/js/Pages/Users/Show.tsx",
 	"./Welcome.tsx": "./resources/js/Pages/Welcome.tsx"
 };
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tweet;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -9,13 +10,28 @@ class TweetController extends Controller
 {
   public function index(Request $request)
   {
-    return Inertia::render('Home', [
-      'tweets' => $request
+    $ids = array_merge(
+      [$request->user()->id],
+      $request
         ->user()
-        ->tweets()
-        ->with('user')
-        ->latest()
-        ->get(),
+        ->following()
+        ->pluck('user_id')
+        ->all()
+    );
+    $tweets = Tweet::query()
+      ->whereIn('user_id', $ids)
+      ->withFeedData()
+      ->latest()
+      ->get();
+    return Inertia::render('Home', [
+      'tweets' => $tweets,
+    ]);
+  }
+
+  public function show(Tweet $tweet)
+  {
+    return Inertia::render('Tweets/Show', [
+      'tweet' => $tweet->load('user'),
     ]);
   }
 

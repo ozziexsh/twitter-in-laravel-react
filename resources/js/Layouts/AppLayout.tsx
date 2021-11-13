@@ -13,18 +13,7 @@ import {
   DotsCircleHorizontalIcon,
   SunIcon,
 } from '@heroicons/react/outline';
-
-const navigation = [
-  { text: '', icon: SunIcon, href: '/home' },
-  { text: 'Home', icon: HomeIcon, href: '/home' },
-  { text: 'Explore', icon: HashtagIcon, href: '/explore' },
-  { text: 'Notifications', icon: BellIcon, href: '/notifications' },
-  { text: 'Messages', icon: MailIcon, href: '/messages' },
-  { text: 'Bookmarks', icon: BookmarkIcon, href: '/bookmarks' },
-  { text: 'Lists', icon: ViewListIcon, href: '/lists' },
-  { text: 'Profile', icon: UserIcon, href: '/profile' },
-  { text: 'Settings', icon: DotsCircleHorizontalIcon, href: '/settings' },
-];
+import useTypedPage from '@/Hooks/useTypedPage';
 
 interface Props {
   title: string;
@@ -33,6 +22,23 @@ interface Props {
 
 export default function AppLayout({ children }: PropsWithChildren<Props>) {
   const route = useRoute();
+  const page = useTypedPage();
+
+  const navigation = [
+    { text: '', icon: SunIcon, href: '/home' },
+    { text: 'Home', icon: HomeIcon, href: '/home' },
+    { text: 'Explore', icon: HashtagIcon, href: '/explore' },
+    { text: 'Notifications', icon: BellIcon, href: '/notifications' },
+    { text: 'Messages', icon: MailIcon, href: '/messages' },
+    { text: 'Bookmarks', icon: BookmarkIcon, href: '/bookmarks' },
+    { text: 'Lists', icon: ViewListIcon, href: '/lists' },
+    {
+      text: 'Profile',
+      icon: UserIcon,
+      href: route('users.show', [page.props.user]),
+    },
+    { text: 'More', icon: DotsCircleHorizontalIcon, href: '/settings' },
+  ];
 
   function logout(e: React.FormEvent) {
     e.preventDefault();
@@ -40,11 +46,11 @@ export default function AppLayout({ children }: PropsWithChildren<Props>) {
   }
 
   return (
-    <div className={'bg-black h-screen overflow-scroll flex items-stretch'}>
-      <div className={'border-r border-gray-50 px-24 pr-24'}>
+    <div className={'bg-black h-screen flex items-stretch'}>
+      <div className={'border-r border-divider px-24 pr-24'}>
         <ul>
           {navigation.map(route => (
-            <li key={route.href}>
+            <li key={route.text}>
               <InertiaLink
                 href={route.href}
                 className={
@@ -58,8 +64,8 @@ export default function AppLayout({ children }: PropsWithChildren<Props>) {
           ))}
         </ul>
       </div>
-      <div className={'w-[40%] text-white'}>{children}</div>
-      <div className={'flex-1 border-l border-gray-50'}></div>
+      <div className={'w-[40%] text-white overflow-scroll'}>{children}</div>
+      <div className={'flex-1 border-l border-divider'}></div>
     </div>
   );
 }

@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { PhotographIcon } from '@heroicons/react/outline';
+import {
+  ChartBarIcon,
+  ClockIcon,
+  EmojiHappyIcon,
+  PhotographIcon,
+} from '@heroicons/react/outline';
 import useAxios from '@/Hooks/useAxios';
 import { Tweet } from '@/types';
 
@@ -41,26 +46,24 @@ export default function TweetForm({ onCreate }: Props) {
           onChange={onChange}
         />
         <div className={'flex items-center justify-between'}>
-          <div className="flex items-center space-x-2 text-blue-400">
+          <div className="flex items-center space-x-2 text-brand">
             <button className={'border-0 bg-none'}>
-              <PhotographIcon className={'w-6 h-6'} />
+              <PhotographIcon className={'w-5 h-5'} />
             </button>
             <button className={'border-0 bg-none'}>
-              <PhotographIcon className={'w-6 h-6'} />
+              <ChartBarIcon className={'w-5 h-5'} />
             </button>
             <button className={'border-0 bg-none'}>
-              <PhotographIcon className={'w-6 h-6'} />
+              <EmojiHappyIcon className={'w-5 h-5'} />
             </button>
             <button className={'border-0 bg-none'}>
-              <PhotographIcon className={'w-6 h-6'} />
+              <ClockIcon className={'w-5 h-5'} />
             </button>
           </div>
           <div className={'flex items-center space-x-2'}>
             {body && <span>{body.length} / 240</span>}
             <button
-              className={
-                'rounded-full px-6 py-2 bg-blue-400 border-0 font-bold'
-              }
+              className={'rounded-full px-4 py-2 bg-brand border-0 font-bold'}
               onClick={create}
             >
               Tweet

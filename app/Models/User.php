@@ -32,4 +32,58 @@ class User extends Authenticatable
   {
     return $this->hasMany(Tweet::class);
   }
+
+  public function likes()
+  {
+    return $this->hasMany(Like::class);
+  }
+
+  public function like(Tweet $tweet)
+  {
+    if (
+      $this->likes()
+        ->whereTweetId($tweet->id)
+        ->exists()
+    ) {
+      return;
+    }
+    $this->likes()->create(['tweet_id' => $tweet->id]);
+  }
+
+  public function unlike(Tweet $tweet)
+  {
+    $this->likes()
+      ->whereTweetId($tweet->id)
+      ->delete();
+  }
+
+  public function followers()
+  {
+    return $this->belongsToMany(User::class, 'follows', 'user_id');
+  }
+
+  public function follow(User $user)
+  {
+    if ($this->isFollowing($user)) {
+      return;
+    }
+    $this->following()->syncWithoutDetaching([$user->id]);
+  }
+
+  public function unfollow(User $user)
+  {
+    $this->following()->detach($user->id);
+  }
+
+  public function following()
+  {
+    return $this->belongsToMany(User::class, 'follows', 'follower_id');
+  }
+
+  public function isFollowing(User $user)
+  {
+    return $this->following()
+      ->whereUserId($user->id)
+      ->exists();
+  }
 }

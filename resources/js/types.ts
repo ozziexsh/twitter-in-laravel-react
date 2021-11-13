@@ -96,3 +96,9 @@ export interface Tweet {
   created_at: DateTime;
   updated_at: DateTime;
 }
+
+export interface FeedTweet extends Tweet {
+  user: User;
+  likes_count: number;
+  liked: boolean;
+}
