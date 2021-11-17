@@ -8,24 +8,9 @@ use Inertia\Inertia;
 
 class TweetController extends Controller
 {
-  public function index(Request $request)
+  public function index()
   {
-    $ids = array_merge(
-      [$request->user()->id],
-      $request
-        ->user()
-        ->following()
-        ->pluck('user_id')
-        ->all()
-    );
-    $tweets = Tweet::query()
-      ->whereIn('user_id', $ids)
-      ->withFeedData()
-      ->latest()
-      ->get();
-    return Inertia::render('Home', [
-      'tweets' => $tweets,
-    ]);
+    return Inertia::render('Home');
   }
 
   public function show(Tweet $tweet)

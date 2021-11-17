@@ -97,7 +97,7 @@ export default function TweetCard({ tweet }: Props) {
   const [likes, setLikes] = useState(likes_count);
 
   function onTweetClick(e: React.MouseEvent<HTMLDivElement>) {
-    Inertia.visit(route('tweets.show', [tweet]));
+    Inertia.visit(route('tweets.show', [tweet]), { preserveScroll: true });
   }
 
   function onUsernameClick(
@@ -138,6 +138,7 @@ export default function TweetCard({ tweet }: Props) {
           href={route('users.show', [user])}
           onClick={onUsernameClick}
           className={'inline-flex items-center space-x-1 text-sm'}
+          preserveScroll={true}
         >
           <span className={'font-bold'}>{user.name}</span>
           <span className={'text-gray-400'}>@{user.username}</span>

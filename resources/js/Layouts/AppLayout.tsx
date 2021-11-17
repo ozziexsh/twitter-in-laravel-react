@@ -18,9 +18,13 @@ import useTypedPage from '@/Hooks/useTypedPage';
 interface Props {
   title: string;
   renderHeader?(): JSX.Element;
+  onMainContentScroll?: React.UIEventHandler<HTMLDivElement>;
 }
 
-export default function AppLayout({ children }: PropsWithChildren<Props>) {
+export default function AppLayout({
+  children,
+  onMainContentScroll,
+}: PropsWithChildren<Props>) {
   const route = useRoute();
   const page = useTypedPage();
 
@@ -64,7 +68,13 @@ export default function AppLayout({ children }: PropsWithChildren<Props>) {
           ))}
         </ul>
       </div>
-      <div className={'w-[40%] text-white overflow-scroll'}>{children}</div>
+      <div
+        className={'w-[40%] text-white overflow-scroll'}
+        onScroll={onMainContentScroll}
+        scroll-region=""
+      >
+        {children}
+      </div>
       <div className={'flex-1 border-l border-divider'}></div>
     </div>
   );

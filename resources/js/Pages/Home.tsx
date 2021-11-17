@@ -2,18 +2,15 @@ import React from 'react';
 import AppLayout from '@/Layouts/AppLayout';
 import { StarIcon } from '@heroicons/react/outline';
 import TweetForm from '@/Components/TweetForm';
-import { FeedTweet, Tweet, User } from '@/types';
-import { Inertia } from '@inertiajs/inertia';
 import TweetCard from '@/Components/TweetCard';
+import useRoute from '@/Hooks/useRoute';
+import useTweetFeed from '@/Hooks/useTweetFeed';
 
-interface Props {
-  tweets: FeedTweet[];
-}
-
-export default function Home({ tweets }: Props) {
-  function onTweetCreated(tweet: Tweet) {
-    Inertia.reload({ preserveScroll: true });
-  }
+export default function Home() {
+  const route = useRoute();
+  const { feed, items, loading, refresh } = useTweetFeed({
+    feedUrl: route('api.feed'),
+  });
 
   return (
     <AppLayout title="Home">
@@ -27,14 +24,17 @@ export default function Home({ tweets }: Props) {
       </div>
 
       <div className="border-b border-divider">
-        <TweetForm onCreate={onTweetCreated} />
+        <TweetForm onCreate={refresh} />
       </div>
 
-      <div className={'divide-y divide-divider'}>
-        {tweets.map(tweet => (
-          <TweetCard key={tweet.id} tweet={tweet} />
-        ))}
-      </div>
+      {feed && (
+        <div className={'divide-y divide-divider'}>
+          {items.map(tweet => (
+            <TweetCard key={tweet.id} tweet={tweet} />
+          ))}
+          {loading && <p className={'p-6'}>Loading...</p>}
+        </div>
+      )}
     </AppLayout>
   );
 }

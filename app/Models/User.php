@@ -38,6 +38,11 @@ class User extends Authenticatable
     return $this->hasMany(Like::class);
   }
 
+  public function likedTweets()
+  {
+    return $this->belongsToMany(Tweet::class, 'likes');
+  }
+
   public function like(Tweet $tweet)
   {
     if (

@@ -102,3 +102,12 @@ export interface FeedTweet extends Tweet {
   likes_count: number;
   liked: boolean;
 }
+
+export interface PaginationResponse<T> {
+  data: T[];
+  total: number;
+  next_page_url: Nullable<string>;
+  prev_page_url: Nullable<string>;
+  path: string;
+  per_page: number;
+}
