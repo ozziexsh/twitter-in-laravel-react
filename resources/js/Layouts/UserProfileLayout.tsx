@@ -11,6 +11,7 @@ import { InertiaLink } from '@inertiajs/inertia-react';
 import useRoute from '@/Hooks/useRoute';
 import useAxios from '@/Hooks/useAxios';
 import useTypedPage from '@/Hooks/useTypedPage';
+import TabLinks from '@/Components/TabLinks';
 
 interface Props {
   profile: User;
@@ -56,7 +57,9 @@ export default function UserProfileLayout({
         }
       >
         <div className={'flex items-center space-x-4'}>
-          <ArrowLeftIcon className={'w-6 h-6'} />
+          <InertiaLink href={route('home')}>
+            <ArrowLeftIcon className={'w-6 h-6'} />
+          </InertiaLink>
           <div>
             <h2 className={'text-xl font-semibold'}>{profile.name}</h2>
             <p className={'text-gray-400'}>{tweetsCount} tweets</p>
@@ -91,7 +94,7 @@ export default function UserProfileLayout({
           </div>
           <h2 className={'font-bold text-lg pt-16'}>{profile.name}</h2>
           <p className={'text-gray-400 text-sm'}>@{profile.username}</p>
-          <p className={'mt-2 leading-tight'}>
+          <p className={'mt-2 leading-snug'}>
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto,
             numquam tempore, aliquam reprehenderit laboriosam
           </p>
@@ -112,53 +115,45 @@ export default function UserProfileLayout({
             </div>
           </div>
           <div className={'flex items-center space-x-4 mt-2'}>
-            <div className={'flex items-center space-x-1'}>
-              <span className={'font-bold'}>{followingCount}</span>
-              <span className={'text-gray-400'}>Following</span>
-            </div>
-            <div className={'flex items-center space-x-1'}>
-              <span className={'font-bold'}>{followersCount}</span>
-              <span className={'text-gray-400'}>Followers</span>
-            </div>
+            <InertiaLink
+              className={'flex items-center space-x-1 hover:underline'}
+              href={route('users.following.index', [profile])}
+            >
+              <span>
+                <span className={'font-bold'}>{followingCount}</span>{' '}
+                <span className={'text-gray-400'}>Following</span>
+              </span>
+            </InertiaLink>
+            <InertiaLink
+              className={'flex items-center space-x-1 hover:underline'}
+              href={route('users.followers.index', [profile])}
+            >
+              <span>
+                <span className={'font-bold'}>{followersCount}</span>{' '}
+                <span className={'text-gray-400'}>Followers</span>
+              </span>
+            </InertiaLink>
           </div>
         </div>
       </div>
 
-      <div className={'flex border-b border-divider mt-4'}>
-        {[
-          {
-            text: 'Tweets',
-            href: route('users.show', [profile]),
-            active: route().current('users.show', [profile]),
-          },
-          { text: 'Tweets & Replies', href: '#', active: false },
-          { text: 'Media', href: '#', active: false },
-          {
-            text: 'Likes',
-            href: route('users.likes.index', [profile]),
-            active: route().current('users.likes.index', [profile]),
-          },
-        ].map(item => (
-          <InertiaLink
-            href={item.href}
-            className={
-              'inline-block text-center flex-grow hover:bg-white hover:bg-opacity-10 text-gray-400 font-bold h-14'
-            }
-            key={item.text}
-            preserveScroll={true}
-          >
-            <div className={'relative inline-flex items-center h-full'}>
-              <span>{item.text}</span>
-              {item.active && (
-                <div
-                  className={
-                    'bg-brand h-1 rounded w-full absolute bottom-0 left-0'
-                  }
-                ></div>
-              )}
-            </div>
-          </InertiaLink>
-        ))}
+      <div className={'mt-4'}>
+        <TabLinks
+          links={[
+            {
+              label: 'Tweets',
+              href: route('users.show', [profile]),
+              active: route().current('users.show', [profile]),
+            },
+            { label: 'Tweets & Replies', href: '#', active: false },
+            { label: 'Media', href: '#', active: false },
+            {
+              label: 'Likes',
+              href: route('users.likes.index', [profile]),
+              active: route().current('users.likes.index', [profile]),
+            },
+          ]}
+        />
       </div>
 
       {children}

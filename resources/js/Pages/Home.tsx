@@ -4,11 +4,12 @@ import { StarIcon } from '@heroicons/react/outline';
 import TweetForm from '@/Components/TweetForm';
 import TweetCard from '@/Components/TweetCard';
 import useRoute from '@/Hooks/useRoute';
-import useTweetFeed from '@/Hooks/useTweetFeed';
+import useScrollingFeed from '@/Hooks/useScrollingFeed';
+import { FeedTweet } from '@/types';
 
 export default function Home() {
   const route = useRoute();
-  const { feed, items, loading, refresh } = useTweetFeed({
+  const { feed, items, loading, refresh } = useScrollingFeed<FeedTweet>({
     feedUrl: route('api.feed'),
   });
 

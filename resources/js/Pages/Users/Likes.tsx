@@ -1,8 +1,8 @@
 import React from 'react';
 import UserProfileLayout from '@/Layouts/UserProfileLayout';
-import useTweetFeed from '@/Hooks/useTweetFeed';
+import useScrollingFeed from '@/Hooks/useScrollingFeed';
 import useRoute from '@/Hooks/useRoute';
-import { User } from '@/types';
+import { FeedTweet, User } from '@/types';
 import TweetCard from '@/Components/TweetCard';
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 
 export default function UsersLikes({ profile }: Props) {
   const route = useRoute();
-  const { items, loading } = useTweetFeed({
+  const { items, loading } = useScrollingFeed<FeedTweet>({
     feedUrl: route('api.users.likes.index', [profile]),
   });
 

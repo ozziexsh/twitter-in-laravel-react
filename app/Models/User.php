@@ -64,7 +64,12 @@ class User extends Authenticatable
 
   public function followers()
   {
-    return $this->belongsToMany(User::class, 'follows', 'user_id');
+    return $this->belongsToMany(
+      User::class,
+      'follows',
+      'user_id',
+      'follower_id'
+    );
   }
 
   public function follow(User $user)
@@ -82,7 +87,12 @@ class User extends Authenticatable
 
   public function following()
   {
-    return $this->belongsToMany(User::class, 'follows', 'follower_id');
+    return $this->belongsToMany(
+      User::class,
+      'follows',
+      'follower_id',
+      'user_id'
+    );
   }
 
   public function isFollowing(User $user)

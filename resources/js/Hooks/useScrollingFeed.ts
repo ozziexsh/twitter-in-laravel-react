@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useAxios from '@/Hooks/useAxios';
-import { FeedTweet, PaginationResponse } from '@/types';
+import { PaginationResponse } from '@/types';
 
-export default function useTweetFeed({ feedUrl }: { feedUrl: string }) {
-  const [feed, setFeed] = useState<PaginationResponse<FeedTweet> | null>(null);
-  const [items, setItems] = useState<FeedTweet[]>([]);
+export default function useScrollingFeed<T>({ feedUrl }: { feedUrl: string }) {
+  const [feed, setFeed] = useState<PaginationResponse<T> | null>(null);
+  const [items, setItems] = useState<T[]>([]);
   const [loading, setLoading] = useState(false);
   const axios = useAxios();
 
@@ -15,7 +15,7 @@ export default function useTweetFeed({ feedUrl }: { feedUrl: string }) {
     return feedUrl;
   }
 
-  async function fetchTweets() {
+  async function fetchFeed() {
     const url = getNextFeedUrl();
     if (loading || !url) {
       return;
@@ -35,18 +35,8 @@ export default function useTweetFeed({ feedUrl }: { feedUrl: string }) {
     setItems(res.data.feed.data);
   }
 
-  function onMainContentScroll(e: React.UIEvent<HTMLDivElement>) {
-    // check if scrolled to bottom of div https://stackoverflow.com/a/24356615/2348553
-    if (
-      e.currentTarget.scrollTop >=
-      e.currentTarget.scrollHeight - e.currentTarget.offsetHeight
-    ) {
-      fetchTweets();
-    }
-  }
-
   useEffect(() => {
-    fetchTweets();
+    fetchFeed();
   }, []);
 
   useEffect(() => {
@@ -55,13 +45,13 @@ export default function useTweetFeed({ feedUrl }: { feedUrl: string }) {
         e.currentTarget?.scrollTop >=
         e.currentTarget?.scrollHeight - e.currentTarget?.offsetHeight
       ) {
-        fetchTweets();
+        fetchFeed();
       }
     }
     const el = document.querySelector('[scroll-region]');
     el?.addEventListener('scroll', listener);
     return () => el?.removeEventListener('scroll', listener);
-  }, [fetchTweets]);
+  }, [fetchFeed]);
 
-  return { feed, items, loading, onMainContentScroll, refresh };
+  return { feed, items, loading, refresh };
 }

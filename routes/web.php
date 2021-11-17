@@ -4,6 +4,7 @@ use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\TweetController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Api;
+use App\Http\Controllers\FollowingController;
 use App\Http\Controllers\UserLikeController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -43,17 +44,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
   ])->name('users.followers.destroy');
 
   Route::get('feed', Api\FeedController::class)->name('api.feed');
-
-  Route::group(['prefix' => 'api'], function () {
-    Route::get(
-      'users/{user:username}/feed',
-      Api\UserTweetController::class
-    )->name('api.users.tweets.index');
-    Route::get('users/{user:username}/likes', [
-      Api\LikeController::class,
-      'index',
-    ])->name('api.users.likes.index');
-  });
 });
 
 Route::get('tweets/{tweet}', [TweetController::class, 'show'])->name(
@@ -67,3 +57,31 @@ Route::get('{user:username}', [UserController::class, 'show'])->name(
 Route::get('{user:username}/likes', [UserLikeController::class, 'index'])->name(
   'users.likes.index'
 );
+
+Route::get('{user:username}/followers', [
+  FollowerController::class,
+  'index',
+])->name('users.followers.index');
+Route::get('{user:username}/following', [
+  FollowingController::class,
+  'index',
+])->name('users.following.index');
+
+Route::group(['prefix' => 'api'], function () {
+  Route::get(
+    'users/{user:username}/feed',
+    Api\UserTweetController::class
+  )->name('api.users.tweets.index');
+  Route::get('users/{user:username}/likes', [
+    Api\LikeController::class,
+    'index',
+  ])->name('api.users.likes.index');
+  Route::get(
+    'users/{user:username}/followers',
+    Api\UserFollowerController::class
+  )->name('api.users.followers.index');
+  Route::get(
+    'users/{user:username}/following',
+    Api\UserFollowingController::class
+  )->name('api.users.following.index');
+});

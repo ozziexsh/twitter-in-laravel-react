@@ -24,8 +24,6 @@ class FeedController extends Controller
       ->orderBy('id', 'DESC')
       ->cursorPaginate(25);
 
-    sleep(1);
-
     return response()->json([
       'feed' => $tweets,
     ]);
