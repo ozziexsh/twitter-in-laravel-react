@@ -17,6 +17,10 @@ class TweetController extends Controller
   {
     return Inertia::render('Tweets/Show', [
       'tweet' => Tweet::withFeedData()->find($tweet->id),
+      'replies' => $tweet
+        ->replies()
+        ->withFeedData()
+        ->get(),
     ]);
   }
 

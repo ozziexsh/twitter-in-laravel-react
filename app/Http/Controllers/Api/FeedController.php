@@ -21,6 +21,7 @@ class FeedController extends Controller
     $tweets = Tweet::query()
       ->whereIn('user_id', $ids)
       ->withFeedData()
+      ->whereNull('parent_id')
       ->orderBy('id', 'DESC')
       ->cursorPaginate(25);
 

@@ -100,6 +100,7 @@ export interface Tweet {
 export interface FeedTweet extends Tweet {
   user: User;
   likes_count: number;
+  replies_count: number;
   liked: boolean;
 }
 

@@ -27,11 +27,17 @@ class Tweet extends Model
     return $this->likes();
   }
 
+  public function replies()
+  {
+    return $this->hasMany(Tweet::class, 'parent_id');
+  }
+
   public function scopeWithFeedData(Builder $query)
   {
     return $query
       ->with('user')
       ->withCount('likes')
+      ->withCount('replies')
       ->selectRaw(
         '(SELECT count(*) > 0 FROM likes WHERE tweets.id = likes.tweet_id AND likes.user_id = ?) AS liked',
         [auth()->id() ?? -1]

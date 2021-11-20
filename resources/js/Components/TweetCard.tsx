@@ -1,3 +1,4 @@
+import TweetActionButton, { ButtonColor } from '@/Components/TweetActionButton';
 import useAxios from '@/Hooks/useAxios';
 import useRoute from '@/Hooks/useRoute';
 import { FeedTweet } from '@/types';
@@ -9,81 +10,7 @@ import {
 } from '@heroicons/react/outline';
 import { Inertia } from '@inertiajs/inertia';
 import { InertiaLink } from '@inertiajs/inertia-react';
-import classNames from 'classnames';
 import React, { useState } from 'react';
-
-enum ButtonColor {
-  green,
-  brand,
-  red,
-}
-
-interface TweetButtonProps {
-  icon: React.ComponentType<{ className: string }>;
-  label?: string | number;
-  color: ButtonColor;
-  onClick?(e: React.FormEvent<HTMLButtonElement>): void;
-  active?: boolean;
-}
-
-function TweetButton({
-  icon,
-  label,
-  color,
-  onClick,
-  active,
-}: TweetButtonProps) {
-  const bgClass = {
-    [ButtonColor.brand]: 'group-hover:bg-brand',
-    [ButtonColor.green]: 'group-hover:bg-green-400',
-    [ButtonColor.red]: 'group-hover:bg-red-400',
-  };
-  const textClass = {
-    [ButtonColor.brand]: 'group-hover:text-brand',
-    [ButtonColor.green]: 'group-hover:text-green-400',
-    [ButtonColor.red]: 'group-hover:text-red-400',
-  };
-  const activeTextClass = {
-    [ButtonColor.brand]: 'text-brand',
-    [ButtonColor.green]: 'text-green-400',
-    [ButtonColor.red]: 'text-red-400',
-  };
-
-  return (
-    <div
-      className={
-        '-ml-2 mt-1 flex items-center justify-between text-gray-400 w-3/4 text-sm'
-      }
-    >
-      <button
-        className={'flex items-center space-x-1 group transition-all'}
-        onClick={onClick}
-      >
-        <span
-          className={classNames(
-            'p-2 rounded-full transition-all group-hover:bg-opacity-10',
-            bgClass[color],
-            textClass[color],
-            {
-              [activeTextClass[color]]: active,
-            },
-          )}
-        >
-          {React.createElement(icon, { className: 'w-4 h-4' })}
-        </span>
-        {label !== undefined && (
-          <span
-            className={classNames('transition-all', textClass[color], {
-              [activeTextClass[color]]: active,
-            })}
-          >
-            {label}
-          </span>
-        )}
-      </button>
-    </div>
-  );
-}
 
 interface Props {
   tweet: FeedTweet;
@@ -133,7 +60,7 @@ export default function TweetCard({ tweet }: Props) {
           className={'block rounded-full w-10 h-10'}
         />
       </div>
-      <div className={'flex-1'}>
+      <div className={'flex-1 -mt-1'}>
         <InertiaLink
           href={route('users.show', [user])}
           onClick={onUsernameClick}
@@ -151,16 +78,24 @@ export default function TweetCard({ tweet }: Props) {
             '-ml-2 mt-1 flex items-center justify-between text-gray-400 w-3/4 text-sm'
           }
         >
-          <TweetButton icon={ChatIcon} label={0} color={ButtonColor.brand} />
-          <TweetButton
+          <TweetActionButton
+            icon={ChatIcon}
+            label={tweet.replies_count}
+            color={ButtonColor.brand}
+          />
+          <TweetActionButton
             icon={HeartIcon}
             label={likes}
             color={ButtonColor.red}
             onClick={onLikeClick}
             active={liked}
           />
-          <TweetButton icon={RefreshIcon} label={0} color={ButtonColor.green} />
-          <TweetButton icon={ShareIcon} color={ButtonColor.brand} />
+          <TweetActionButton
+            icon={RefreshIcon}
+            label={0}
+            color={ButtonColor.green}
+          />
+          <TweetActionButton icon={ShareIcon} color={ButtonColor.brand} />
         </div>
       </div>
     </div>

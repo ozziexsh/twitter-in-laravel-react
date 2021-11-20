@@ -84,4 +84,11 @@ Route::group(['prefix' => 'api'], function () {
     'users/{user:username}/following',
     Api\UserFollowingController::class
   )->name('api.users.following.index');
+
+  Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post(
+      'tweets/{tweet}/replies',
+      Api\TweetReplyController::class
+    )->name('api.tweets.replies.store');
+  });
 });
