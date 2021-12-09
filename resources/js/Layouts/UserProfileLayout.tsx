@@ -122,20 +122,20 @@ export default function UserProfileLayout({
           <h2 className={'font-bold text-lg pt-16'}>{profile.name}</h2>
           <p className={'text-gray-400 text-sm'}>@{profile.username}</p>
           <p className={'mt-2 leading-snug'}>
-            {user.bio || <span className={'italic'}>no bio</span>}
+            {profile.bio || <span className={'italic'}>no bio</span>}
           </p>
           <div className={'flex items-center space-x-4 text-gray-400 mt-2'}>
-            {user.location && (
+            {profile.location && (
               <div className={'flex items-center space-x-1'}>
                 <LocationMarkerIcon className={'w-4 h-4'} />
-                <span>{user.location}</span>
+                <span>{profile.location}</span>
               </div>
             )}
-            {user.website && (
+            {profile.website && (
               <div className={'flex items-center space-x-1'}>
                 <LinkIcon className={'w-4 h-4'} />
-                <InertiaLink className={'text-brand'} href={user.website}>
-                  {user.website.replace(/^https?:\/\//, '')}
+                <InertiaLink className={'text-brand'} href={profile.website}>
+                  {profile.website?.replace(/^https?:\/\//, '')}
                 </InertiaLink>
               </div>
             )}

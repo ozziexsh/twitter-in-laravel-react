@@ -13,9 +13,7 @@ class UserProfileViewData
         'profile' => $user,
         'followers_count' => $user->followers()->count(),
         'following_count' => $user->following()->count(),
-        'following' => request()
-          ->user()
-          ->isFollowing($user),
+        'following' => request()->user()?->isFollowing($user),
         'tweets_count' => $user->tweets()->count(),
       ],
       $data

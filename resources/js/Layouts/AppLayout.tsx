@@ -39,7 +39,9 @@ export default function AppLayout({
     {
       text: 'Profile',
       icon: UserIcon,
-      href: route('users.show', [page.props.user]),
+      href: page.props.user
+        ? route('users.show', [page.props.user])
+        : route('login'),
     },
     { text: 'More', icon: DotsCircleHorizontalIcon, href: '/settings' },
   ];

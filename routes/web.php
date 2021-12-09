@@ -11,12 +11,9 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-  return Inertia::render('Welcome', [
-    'canLogin' => Route::has('login'),
-    'canRegister' => Route::has('register'),
-    'laravelVersion' => Application::VERSION,
-    'phpVersion' => PHP_VERSION,
-  ]);
+  return auth()->check()
+    ? redirect()->route('home')
+    : redirect()->route('login');
 });
 
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
