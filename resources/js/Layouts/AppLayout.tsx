@@ -55,13 +55,13 @@ export default function AppLayout({
     <div className={'bg-black h-screen flex items-stretch'}>
       <div
         className={
-          'border-r border-divider max-w-md lg:max-w-[26%] px-2 lg:pl-24 lg:pr-12'
+          'border-r border-divider max-w-md lg:max-w-[26%] px-2 lg:pl-24 lg:pr-4'
         }
       >
         <ul>
           {navigation.map(route => (
             <li key={route.text}>
-              <InertiaLink href={route.href} className={'block group'}>
+              <InertiaLink href={route.href} className={'block group lg:pr-8'}>
                 <span
                   className={
                     'text-white text-xl font-semibold inline-flex items-center space-x-4 p-4 rounded-full group-hover:bg-white group-hover:bg-opacity-10'

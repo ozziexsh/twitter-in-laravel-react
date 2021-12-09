@@ -1,6 +1,6 @@
-import React, { Fragment, useRef } from 'react';
+import React, { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { XIcon } from '@heroicons/react/outline';
+import { CameraIcon, TrashIcon, XIcon } from '@heroicons/react/outline';
 import Button from '@/Components/Button';
 import { User } from '@/types';
 import { useForm } from '@inertiajs/inertia-react';
@@ -84,18 +84,54 @@ export default function EditProfileModal({ isOpen, onClose, user }: Props) {
     bio: user.bio || '',
     location: user.location || '',
     website: user.website || '',
+    photo: null as File | null,
+    cover_photo: null as File | null,
+    _method: 'PUT',
   });
   const route = useRoute();
   const cancelButtonRef = useRef(null);
+  const photoRef = useRef<HTMLInputElement>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(
+    user.profile_photo_path,
+  );
 
   function onSave() {
-    form.put(route('users.update', [user]), {
+    form.post(route('users.update', [user]), {
       onFinish() {
         onClose();
         Inertia.reload();
       },
     });
   }
+
+  function onProfilePictureClick() {
+    photoRef.current?.click();
+  }
+
+  function onProfilePhotoRemoved() {
+    form.setData('photo', null);
+    setPhotoPreview(null);
+  }
+
+  function onProfilePhotoSelected() {
+    const photo = photoRef.current?.files?.[0];
+
+    if (!photo) {
+      return;
+    }
+
+    form.setData('photo', photo);
+
+    const reader = new FileReader();
+
+    reader.onload = e => {
+      setPhotoPreview(e.target?.result as string);
+    };
+
+    reader.readAsDataURL(photo);
+  }
+
+  const photoToShow = photoPreview || user.profile_photo_path;
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -152,7 +188,56 @@ export default function EditProfileModal({ isOpen, onClose, user }: Props) {
                   Save
                 </Button>
               </div>
-              <div className="space-y-4 px-4 pt-5 pb-4 sm:p-6">
+              <div className="h-48 w-full flex items-center justify-center relative">
+                <button
+                  className={
+                    'p-2 cursor-pointer hover:bg-white hover:bg-opacity-25 rounded-full relative z-10'
+                  }
+                >
+                  <CameraIcon className={'w-6 h-6 text-white'} />
+                </button>
+              </div>
+              <div className="space-y-4 px-4 pt-5 pb-4 sm:p-6 relative -top-16">
+                <div className={'flex items-start space-x-2'}>
+                  <div
+                    className={
+                      'w-28 h-28 rounded-full border border-gray-400 flex items-center justify-center relative'
+                    }
+                    style={
+                      photoToShow
+                        ? {
+                            backgroundImage: `url('${photoToShow}')`,
+                            backgroundPosition: 'center center',
+                            backgroundSize: 'cover',
+                          }
+                        : undefined
+                    }
+                  >
+                    <div className="w-full h-full bg-black bg-opacity-25 absolute top-0 left-0"></div>
+                    <button
+                      onClick={onProfilePictureClick}
+                      className={
+                        'p-2 cursor-pointer hover:bg-white hover:bg-opacity-25 rounded-full relative z-10'
+                      }
+                    >
+                      <CameraIcon className={'w-6 h-6 text-white'} />
+                    </button>
+                    <input
+                      type="file"
+                      className={'hidden'}
+                      ref={photoRef}
+                      onChange={onProfilePhotoSelected}
+                    />
+                  </div>
+                  {photoToShow ? (
+                    <button
+                      className={'cursor-pointer'}
+                      onClick={onProfilePhotoRemoved}
+                    >
+                      <TrashIcon className={'w-4 h-4 text-red-400'} />
+                    </button>
+                  ) : null}
+                </div>
                 <Input
                   label={'Name'}
                   id={'name'}

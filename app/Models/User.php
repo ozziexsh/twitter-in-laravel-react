@@ -28,6 +28,8 @@ class User extends Authenticatable
     'email_verified_at' => 'datetime',
   ];
 
+  protected $appends = ['profile_photo_path'];
+
   public function tweets()
   {
     return $this->hasMany(Tweet::class);
@@ -95,5 +97,14 @@ class User extends Authenticatable
     return $this->following()
       ->whereUserId($user->id)
       ->exists();
+  }
+
+  public function getProfilePhotoPathAttribute()
+  {
+    if ($this->profile_photo_url) {
+      return asset('storage/' . $this->profile_photo_url);
+    }
+
+    return null;
   }
 }
