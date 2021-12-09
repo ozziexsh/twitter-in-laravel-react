@@ -47,8 +47,7 @@ export default function TweetAvatarHover({
           <p className={'text-white font-bold'}>{tweet.user.name}</p>
           <p className={'text-gray-500 -mt-1'}>@{tweet.user.username}</p>
           <p className={'text-white mt-2 leading-snug'}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum est
-            earum commodi voluptatum dolores repudiandae{' '}
+            {tweet.user.bio || 'no bio'}
           </p>
           <div className={'text-white flex items-center space-x-4 mt-2'}>
             <InertiaLink
