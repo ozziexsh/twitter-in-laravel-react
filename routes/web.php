@@ -84,6 +84,10 @@ Route::group(['prefix' => 'api'], function () {
     'users/{user:username}/following',
     Api\UserFollowingController::class
   )->name('api.users.following.index');
+  Route::get(
+    'users/{user:username}/summary',
+    Api\UserSummaryController::class
+  )->name('api.users.summary');
 
   Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post(

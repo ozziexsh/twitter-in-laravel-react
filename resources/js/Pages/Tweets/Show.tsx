@@ -14,6 +14,7 @@ import useRoute from '@/Hooks/useRoute';
 import { InertiaLink } from '@inertiajs/inertia-react';
 import TweetActionButton, { ButtonColor } from '@/Components/TweetActionButton';
 import useAxios from '@/Hooks/useAxios';
+import useTweetLikes from '@/Hooks/useTweetLikes';
 
 interface Props {
   tweet: FeedTweet;
@@ -24,6 +25,7 @@ export default function TweetsShow({ tweet, replies }: Props) {
   const route = useRoute();
   const [body, setBody] = useState('');
   const axios = useAxios();
+  const { liked, likes, onLikeClick } = useTweetLikes({ tweet });
 
   async function submiyReply() {
     const res = await axios.post(route('api.tweets.replies.store', [tweet]), {
@@ -89,7 +91,7 @@ export default function TweetsShow({ tweet, replies }: Props) {
               href={'#'}
             >
               <span>
-                <span className={'font-bold'}>{tweet.likes_count}</span>{' '}
+                <span className={'font-bold'}>{likes}</span>{' '}
                 <span className={'text-gray-400'}>Likes</span>
               </span>
             </InertiaLink>
@@ -112,7 +114,8 @@ export default function TweetsShow({ tweet, replies }: Props) {
             icon={HeartIcon}
             color={ButtonColor.red}
             iconClassName={'w-6 h-6'}
-            active={tweet.liked}
+            active={liked}
+            onClick={onLikeClick}
           />
           <TweetActionButton
             icon={ShareIcon}

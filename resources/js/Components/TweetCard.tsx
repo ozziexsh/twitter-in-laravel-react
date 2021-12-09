@@ -1,6 +1,7 @@
+import React from 'react';
 import TweetActionButton, { ButtonColor } from '@/Components/TweetActionButton';
-import useAxios from '@/Hooks/useAxios';
 import useRoute from '@/Hooks/useRoute';
+import useTweetLikes from '@/Hooks/useTweetLikes';
 import { FeedTweet } from '@/types';
 import {
   ChatIcon,
@@ -10,18 +11,16 @@ import {
 } from '@heroicons/react/outline';
 import { Inertia } from '@inertiajs/inertia';
 import { InertiaLink } from '@inertiajs/inertia-react';
-import React, { useState } from 'react';
+import TweetAvatarHover from '@/Components/TweetAvatarHover';
 
 interface Props {
   tweet: FeedTweet;
 }
 
 export default function TweetCard({ tweet }: Props) {
-  const { user, likes_count } = tweet;
+  const { user } = tweet;
   const route = useRoute();
-  const axios = useAxios();
-  const [liked, setLiked] = useState(tweet.liked);
-  const [likes, setLikes] = useState(likes_count);
+  const { likes, liked, onLikeClick } = useTweetLikes({ tweet });
 
   function onTweetClick(e: React.MouseEvent<HTMLDivElement>) {
     Inertia.visit(route('tweets.show', [tweet]), { preserveScroll: true });
@@ -35,30 +34,19 @@ export default function TweetCard({ tweet }: Props) {
     e.stopPropagation();
   }
 
-  function onLikeClick(e: React.MouseEvent<HTMLButtonElement>) {
-    e.stopPropagation();
-    if (liked) {
-      axios.delete(route('tweets.likes.destroy', [tweet]));
-      setLiked(false);
-      setLikes(l => l - 1);
-    } else {
-      axios.post(route('tweets.likes.store', [tweet]));
-      setLiked(true);
-      setLikes(l => l + 1);
-    }
-  }
-
   return (
     <div
       className={'flex p-4 cursor-pointer hover:bg-white hover:bg-opacity-10'}
       onClick={onTweetClick}
     >
       <div className={'pr-4'}>
-        <img
-          src="https://via.placeholder.com/100"
-          alt=""
-          className={'block rounded-full w-10 h-10'}
-        />
+        <TweetAvatarHover tweet={tweet}>
+          <img
+            src="https://via.placeholder.com/100"
+            alt=""
+            className={'block rounded-full w-10 h-10'}
+          />
+        </TweetAvatarHover>
       </div>
       <div className={'flex-1 -mt-1'}>
         <InertiaLink

@@ -35,11 +35,6 @@ class User extends Authenticatable
 
   public function likes()
   {
-    return $this->hasMany(Like::class);
-  }
-
-  public function likedTweets()
-  {
     return $this->belongsToMany(Tweet::class, 'likes');
   }
 
@@ -52,7 +47,7 @@ class User extends Authenticatable
     ) {
       return;
     }
-    $this->likes()->create(['tweet_id' => $tweet->id]);
+    $this->likes()->syncWithoutDetaching($tweet);
   }
 
   public function unlike(Tweet $tweet)

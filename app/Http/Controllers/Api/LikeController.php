@@ -13,7 +13,7 @@ class LikeController extends Controller
   {
     return response()->json([
       'feed' => $user
-        ->likedTweets()
+        ->likes()
         ->withFeedData()
         ->orderBy('likes.created_at', 'DESC')
         ->cursorPaginate(25),
