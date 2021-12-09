@@ -51,31 +51,40 @@ export default function AppLayout({
 
   return (
     <div className={'bg-black h-screen flex items-stretch'}>
-      <div className={'border-r border-divider px-24 pr-24'}>
+      <div
+        className={
+          'border-r border-divider max-w-md lg:max-w-[26%] px-2 lg:pl-24 lg:pr-12'
+        }
+      >
         <ul>
           {navigation.map(route => (
             <li key={route.text}>
-              <InertiaLink
-                href={route.href}
-                className={
-                  'text-white text-xl font-semibold inline-flex items-center space-x-4 p-4 rounded-full hover:bg-white hover:bg-opacity-10'
-                }
-              >
-                {React.createElement(route.icon, { className: 'w-6 h-6' })}
-                {route.text && <span>{route.text}</span>}
+              <InertiaLink href={route.href} className={'block group'}>
+                <span
+                  className={
+                    'text-white text-xl font-semibold inline-flex items-center space-x-4 p-4 rounded-full group-hover:bg-white group-hover:bg-opacity-10'
+                  }
+                >
+                  {React.createElement(route.icon, { className: 'w-6 h-6' })}
+                  {route.text && (
+                    <span className={'hidden lg:inline'}>{route.text}</span>
+                  )}
+                </span>
               </InertiaLink>
             </li>
           ))}
         </ul>
       </div>
       <div
-        className={'w-[40%] text-white overflow-scroll'}
+        className={
+          'w-full md:max-w-[600px] text-white overflow-scroll md:border-r md:border-divider'
+        }
         onScroll={onMainContentScroll}
         scroll-region=""
       >
         {children}
       </div>
-      <div className={'flex-1 border-l border-divider'}></div>
+      <div className={'hidden lg:flex lg:flex-1'}></div>
     </div>
   );
 }

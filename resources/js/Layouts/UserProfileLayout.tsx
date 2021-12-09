@@ -12,6 +12,8 @@ import useRoute from '@/Hooks/useRoute';
 import useAxios from '@/Hooks/useAxios';
 import useTypedPage from '@/Hooks/useTypedPage';
 import TabLinks from '@/Components/TabLinks';
+import Button from '@/Components/Button';
+import EditProfileModal from '@/Domains/Profile/EditProfileModal';
 
 interface Props {
   profile: User;
@@ -36,6 +38,7 @@ export default function UserProfileLayout({
   const {
     props: { user },
   } = useTypedPage();
+  const [editingProfile, setEditingProfile] = useState(false);
 
   async function follow() {
     await axios.post(route('users.followers.store', [profile]));
@@ -83,32 +86,59 @@ export default function UserProfileLayout({
             <div>
               {(() => {
                 if (user?.id === profile.id) {
-                  return <button>Edit Profile</button>;
+                  return (
+                    <Button
+                      appearance={'outlined'}
+                      color={'white'}
+                      onClick={() => setEditingProfile(true)}
+                    >
+                      Edit Profile
+                    </Button>
+                  );
                 }
                 if (isFollowing) {
-                  return <button onClick={unfollow}>Unfollow</button>;
+                  return (
+                    <Button
+                      appearance={'filled'}
+                      color={'white'}
+                      onClick={unfollow}
+                    >
+                      Unfollow
+                    </Button>
+                  );
                 }
-                return <button onClick={follow}>Follow</button>;
+                return (
+                  <Button
+                    appearance={'outlined'}
+                    color={'white'}
+                    onClick={follow}
+                  >
+                    Follow
+                  </Button>
+                );
               })()}
             </div>
           </div>
           <h2 className={'font-bold text-lg pt-16'}>{profile.name}</h2>
           <p className={'text-gray-400 text-sm'}>@{profile.username}</p>
           <p className={'mt-2 leading-snug'}>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto,
-            numquam tempore, aliquam reprehenderit laboriosam
+            {user.bio || <span className={'italic'}>no bio</span>}
           </p>
           <div className={'flex items-center space-x-4 text-gray-400 mt-2'}>
-            <div className={'flex items-center space-x-1'}>
-              <LocationMarkerIcon className={'w-4 h-4'} />
-              <span>Canada</span>
-            </div>
-            <div className={'flex items-center space-x-1'}>
-              <LinkIcon className={'w-4 h-4'} />
-              <InertiaLink className={'text-brand'} href={'#'}>
-                ozzie.sh
-              </InertiaLink>
-            </div>
+            {user.location && (
+              <div className={'flex items-center space-x-1'}>
+                <LocationMarkerIcon className={'w-4 h-4'} />
+                <span>{user.location}</span>
+              </div>
+            )}
+            {user.website && (
+              <div className={'flex items-center space-x-1'}>
+                <LinkIcon className={'w-4 h-4'} />
+                <InertiaLink className={'text-brand'} href={user.website}>
+                  {user.website.replace(/^https?:\/\//, '')}
+                </InertiaLink>
+              </div>
+            )}
             <div className={'flex items-center space-x-1'}>
               <CalendarIcon className={'w-4 h-4'} />
               <span>Joined {profile.created_at.substr(0, 10)}</span>
@@ -157,6 +187,12 @@ export default function UserProfileLayout({
       </div>
 
       {children}
+
+      <EditProfileModal
+        user={profile}
+        isOpen={editingProfile}
+        onClose={() => setEditingProfile(false)}
+      />
     </AppLayout>
   );
 }

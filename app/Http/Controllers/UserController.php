@@ -13,4 +13,23 @@ class UserController extends Controller
   {
     return Inertia::render('Users/Show', UserProfileViewData::prepare($user));
   }
+
+  public function update(Request $request, User $user)
+  {
+    abort_unless($request->user()->is($user), 401);
+
+    $data = $request->validate([
+      'name' => ['required', 'string', 'max:50'],
+      'bio' => ['nullable', 'string', 'max:160'],
+      'location' => ['nullable', 'string', 'max:30'],
+      'website' => ['nullable', 'string', 'url', 'max:60'],
+    ]);
+
+    $request
+      ->user()
+      ->fill($data)
+      ->save();
+
+    return redirect()->back();
+  }
 }

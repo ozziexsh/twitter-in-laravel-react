@@ -44,6 +44,10 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
   ])->name('users.followers.destroy');
 
   Route::get('feed', Api\FeedController::class)->name('api.feed');
+
+  Route::put('users/{user:username}', [UserController::class, 'update'])->name(
+    'users.update'
+  );
 });
 
 Route::get('tweets/{tweet}', [TweetController::class, 'show'])->name(

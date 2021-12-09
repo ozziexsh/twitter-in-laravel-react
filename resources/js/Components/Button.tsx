@@ -20,7 +20,7 @@ export default function Button({
   appearance = 'filled',
   ...props
 }: PropsWithChildren<Props>) {
-  const baseClasses = 'rounded-full px-4 py-2 font-bold';
+  const baseClasses = 'rounded-full px-4 py-2 font-bold transition';
 
   const comboStyles: {
     [appearance in Appearance]: {
@@ -33,7 +33,8 @@ export default function Button({
     },
     outlined: {
       brand: 'bg-transparent border border-brand text-brand',
-      white: 'bg-transparent border border-white text-white',
+      white:
+        'bg-transparent border border-white text-white hover:bg-white hover:text-black transition',
     },
   };
 

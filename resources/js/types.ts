@@ -20,6 +20,9 @@ export interface User {
   profile_photo_url: string;
   two_factor_enabled: boolean;
   email_verified_at: Nullable<DateTime>;
+  bio: Nullable<DateTime>;
+  location: Nullable<DateTime>;
+  website: Nullable<DateTime>;
   created_at: DateTime;
   updated_at: DateTime;
 }
