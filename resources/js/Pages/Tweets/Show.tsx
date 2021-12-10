@@ -48,7 +48,7 @@ export default function TweetsShow({ tweet, replies }: Props) {
       <div className={'px-4 pt-4'}>
         <div className={'flex'}>
           <img
-            src="https://via.placeholder.com/100"
+            src={tweet.user.profile_photo_path}
             alt=""
             className={'block rounded-full w-12 h-12'}
           />
@@ -130,7 +130,7 @@ export default function TweetsShow({ tweet, replies }: Props) {
         <div className={'flex items-center space-x-2 py-2'}>
           <div>
             <img
-              src="https://via.placeholder.com/200"
+              src={tweet.user.profile_photo_path}
               alt=""
               className={'w-12 h-12 rounded-full'}
             />

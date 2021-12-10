@@ -25,14 +25,18 @@ Going for a 1:1 recreation of Twitter in Laravel.
 - [x] ~~View a users followers~~
 - [x] ~~View who a user is following~~
 - [x] ~~Hover avatar for a profile quicklook~~
-- [ ] Upload an avatar
-- [ ] Upload a cover image
+- [x] ~~Upload an avatar~~
+- [x] ~~Upload a cover image~~
 - [ ] Light / dark mode
 - [ ] Retweets
 - [ ] Quote retweet
 - [ ] Share dialog
 - [ ] DM a user
 - [ ] Send a tweet via dm
+- [ ] Hashtags
+- [ ] User mentions
+- [ ] PHPStan level 9 (?)
+- [ ] PEST tests
 
 ## Running
 

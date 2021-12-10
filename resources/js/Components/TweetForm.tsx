@@ -7,6 +7,7 @@ import {
 } from '@heroicons/react/outline';
 import useAxios from '@/Hooks/useAxios';
 import { Tweet } from '@/types';
+import useTypedPage from '@/Hooks/useTypedPage';
 
 interface Props {
   onCreate(tweet: Tweet): void;
@@ -15,6 +16,9 @@ interface Props {
 export default function TweetForm({ onCreate }: Props) {
   const [body, setBody] = useState('');
   const axios = useAxios();
+  const {
+    props: { user },
+  } = useTypedPage();
 
   function onChange(e: React.FormEvent<HTMLTextAreaElement>) {
     if (body.length >= 280) {
@@ -33,7 +37,7 @@ export default function TweetForm({ onCreate }: Props) {
     <div className={'flex p-4'}>
       <div className={'pr-4'}>
         <img
-          src="https://via.placeholder.com/100"
+          src={user.profile_photo_path}
           alt=""
           className={'rounded-full w-12 h-12'}
         />

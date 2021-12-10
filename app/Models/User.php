@@ -28,7 +28,7 @@ class User extends Authenticatable
     'email_verified_at' => 'datetime',
   ];
 
-  protected $appends = ['profile_photo_path'];
+  protected $appends = ['profile_photo_path', 'cover_photo_path'];
 
   public function tweets()
   {
@@ -101,10 +101,24 @@ class User extends Authenticatable
 
   public function getProfilePhotoPathAttribute()
   {
-    if ($this->profile_photo_url) {
-      return asset('storage/' . $this->profile_photo_url);
+    $name = collect(explode(' ', $this->name))
+      ->take(2)
+      ->join(' ');
+    $safeName = urlencode($name);
+
+    if (!$this->profile_photo_url) {
+      return "https://ui-avatars.com/api/?name=${safeName}";
     }
 
-    return null;
+    return asset('storage/' . $this->profile_photo_url);
+  }
+
+  public function getCoverPhotoPathAttribute()
+  {
+    if (!$this->cover_photo_url) {
+      return null;
+    }
+
+    return asset('storage/' . $this->cover_photo_url);
   }
 }

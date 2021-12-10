@@ -16,8 +16,10 @@ export interface User {
   username: string;
   email: string;
   current_team_id: Nullable<number>;
-  profile_photo_path: Nullable<string>;
-  profile_photo_url: string;
+  profile_photo_path: string;
+  profile_photo_url: Nullable<string>;
+  cover_photo_path: Nullable<string>;
+  cover_photo_url: string;
   two_factor_enabled: boolean;
   email_verified_at: Nullable<DateTime>;
   bio: Nullable<DateTime>;

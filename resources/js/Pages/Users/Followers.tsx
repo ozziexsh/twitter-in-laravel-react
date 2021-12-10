@@ -25,7 +25,7 @@ export default function UsersFollowers({ profile }: Props) {
             href={route('users.show', [user])}
           >
             <img
-              src="https://via.placeholder.com/100"
+              src={user.profile_photo_path}
               alt=""
               className={'block rounded-full w-10 h-10'}
             />

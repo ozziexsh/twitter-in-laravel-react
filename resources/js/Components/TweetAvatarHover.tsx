@@ -28,7 +28,7 @@ export default function TweetAvatarHover({
         <HoverCard.Arrow />
         <div className={'flex items-center justify-between'}>
           <img
-            src="https://via.placeholder.com/200"
+            src={tweet.user.profile_photo_path}
             alt=""
             className={'w-14 h-14 rounded-full'}
           />

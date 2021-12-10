@@ -1,12 +1,13 @@
-import React, { Fragment, useRef, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { CameraIcon, TrashIcon, XIcon } from '@heroicons/react/outline';
 import Button from '@/Components/Button';
-import { User } from '@/types';
+import { Nullable, User } from '@/types';
 import { useForm } from '@inertiajs/inertia-react';
 import useRoute from '@/Hooks/useRoute';
 import { Inertia } from '@inertiajs/inertia';
 import classNames from 'classnames';
+import usePhotoInput from '@/Hooks/usePhotoInput';
 
 interface BaseInputProps {
   label: string;
@@ -51,7 +52,7 @@ function Input({ label, multiline = false, ...props }: InputProps) {
             <textarea
               {...(props as MultilineProps)}
               className={classNames(
-                'bg-transparent text-white p-0 border-none w-full',
+                'bg-transparent text-white p-0 border-none w-full resize-none',
                 props.className,
               )}
             />
@@ -85,53 +86,42 @@ export default function EditProfileModal({ isOpen, onClose, user }: Props) {
     location: user.location || '',
     website: user.website || '',
     photo: null as File | null,
-    cover_photo: null as File | null,
+    cover: null as File | null,
     _method: 'PUT',
   });
   const route = useRoute();
   const cancelButtonRef = useRef(null);
-  const photoRef = useRef<HTMLInputElement>(null);
-  const [photoPreview, setPhotoPreview] = useState<string | null>(
-    user.profile_photo_path,
-  );
+  const profilePhoto = usePhotoInput({ initial: user.profile_photo_path });
+  const coverPhoto = usePhotoInput({ initial: user.cover_photo_path });
 
   function onSave() {
     form.post(route('users.update', [user]), {
-      onFinish() {
+      onSuccess() {
         onClose();
         Inertia.reload();
       },
     });
   }
 
-  function onProfilePictureClick() {
-    photoRef.current?.click();
-  }
-
-  function onProfilePhotoRemoved() {
-    form.setData('photo', null);
-    setPhotoPreview(null);
-  }
-
-  function onProfilePhotoSelected() {
-    const photo = photoRef.current?.files?.[0];
-
-    if (!photo) {
-      return;
+  function getBgImageStyle(url: Nullable<string>) {
+    if (!url) {
+      return {};
     }
 
-    form.setData('photo', photo);
-
-    const reader = new FileReader();
-
-    reader.onload = e => {
-      setPhotoPreview(e.target?.result as string);
+    return {
+      backgroundImage: `url('${url}')`,
+      backgroundPosition: 'center center',
+      backgroundSize: 'cover',
     };
-
-    reader.readAsDataURL(photo);
   }
 
-  const photoToShow = photoPreview || user.profile_photo_path;
+  useEffect(() => {
+    form.setData('photo', profilePhoto.value);
+  }, [profilePhoto.value]);
+
+  useEffect(() => {
+    form.setData('cover', coverPhoto.value);
+  }, [coverPhoto.value]);
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -173,7 +163,7 @@ export default function EditProfileModal({ isOpen, onClose, user }: Props) {
             <div className="inline-block align-bottom bg-black rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
               <div
                 className={
-                  'border-b border-divider flex justify-between items-center p-4 mb-4'
+                  'border-b border-divider flex justify-between items-center p-4'
                 }
               >
                 <div className={'flex items-center space-x-4'}>
@@ -188,51 +178,56 @@ export default function EditProfileModal({ isOpen, onClose, user }: Props) {
                   Save
                 </Button>
               </div>
-              <div className="h-48 w-full flex items-center justify-center relative">
-                <button
-                  className={
-                    'p-2 cursor-pointer hover:bg-white hover:bg-opacity-25 rounded-full relative z-10'
-                  }
-                >
-                  <CameraIcon className={'w-6 h-6 text-white'} />
-                </button>
+              <div
+                className="h-48 w-full flex bg-orange-100 items-center justify-center relative"
+                style={getBgImageStyle(coverPhoto.preview)}
+              >
+                <div className="w-full h-full bg-black bg-opacity-25 absolute top-0 left-0"></div>
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={coverPhoto.openFilePicker}
+                    className={
+                      'p-2 cursor-pointer hover:bg-white hover:bg-opacity-25 rounded-full relative z-10'
+                    }
+                  >
+                    <CameraIcon className={'w-6 h-6 text-white'} />
+                  </button>
+                  {coverPhoto.preview ? (
+                    <button
+                      onClick={coverPhoto.onRemove}
+                      className={
+                        'p-2 cursor-pointer hover:bg-white hover:bg-opacity-25 rounded-full relative z-10'
+                      }
+                    >
+                      <TrashIcon className={'w-6 h-6 text-red-400'} />
+                    </button>
+                  ) : null}
+                </div>
+                {coverPhoto.input}
               </div>
               <div className="space-y-4 px-4 pt-5 pb-4 sm:p-6 relative -top-16">
-                <div className={'flex items-start space-x-2'}>
+                <div className={'flex items-end space-x-2'}>
                   <div
                     className={
                       'w-28 h-28 rounded-full border border-gray-400 flex items-center justify-center relative'
                     }
-                    style={
-                      photoToShow
-                        ? {
-                            backgroundImage: `url('${photoToShow}')`,
-                            backgroundPosition: 'center center',
-                            backgroundSize: 'cover',
-                          }
-                        : undefined
-                    }
+                    style={getBgImageStyle(profilePhoto.preview)}
                   >
-                    <div className="w-full h-full bg-black bg-opacity-25 absolute top-0 left-0"></div>
+                    <div className="w-full h-full bg-black bg-opacity-25 absolute top-0 left-0 rounded-full"></div>
                     <button
-                      onClick={onProfilePictureClick}
+                      onClick={profilePhoto.openFilePicker}
                       className={
                         'p-2 cursor-pointer hover:bg-white hover:bg-opacity-25 rounded-full relative z-10'
                       }
                     >
                       <CameraIcon className={'w-6 h-6 text-white'} />
                     </button>
-                    <input
-                      type="file"
-                      className={'hidden'}
-                      ref={photoRef}
-                      onChange={onProfilePhotoSelected}
-                    />
+                    {profilePhoto.input}
                   </div>
-                  {photoToShow ? (
+                  {profilePhoto.preview ? (
                     <button
                       className={'cursor-pointer'}
-                      onClick={onProfilePhotoRemoved}
+                      onClick={profilePhoto.onRemove}
                     >
                       <TrashIcon className={'w-4 h-4 text-red-400'} />
                     </button>

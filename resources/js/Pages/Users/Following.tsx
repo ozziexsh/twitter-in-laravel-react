@@ -25,7 +25,7 @@ export default function UsersFollowing({ profile }: Props) {
             href={route('users.show', [user])}
           >
             <img
-              src="https://via.placeholder.com/100"
+              src={user.profile_photo_path}
               alt=""
               className={'block rounded-full w-10 h-10'}
             />
@@ -33,10 +33,7 @@ export default function UsersFollowing({ profile }: Props) {
               <p className={'text-white font-bold'}>{user.name}</p>
               <p className={'text-gray-500 -mt-1'}>@{user.username}</p>
               <p className={'text-white mt-1 leading-snug'}>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Repellendus alias minima porro libero accusantium eaque sunt
-                magnam neque quae, dolor voluptates nihil totam pariatur error
-                voluptatem deserunt incidunt mollitia tenetur?
+                {user.bio || 'no bio'}
               </p>
             </div>
           </InertiaLink>

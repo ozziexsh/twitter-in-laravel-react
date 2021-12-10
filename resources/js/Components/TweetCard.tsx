@@ -42,7 +42,7 @@ export default function TweetCard({ tweet }: Props) {
       <div className={'pr-4'}>
         <TweetAvatarHover tweet={tweet}>
           <img
-            src="https://via.placeholder.com/100"
+            src={user.profile_photo_path}
             alt=""
             className={'block rounded-full w-10 h-10'}
           />

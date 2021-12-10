@@ -71,11 +71,22 @@ export default function UserProfileLayout({
       </div>
 
       <div>
-        <div className="bg-gray-400 h-48" />
+        <div
+          className="bg-gray-400 h-48"
+          style={
+            profile.cover_photo_path
+              ? {
+                  backgroundImage: `url('${profile.cover_photo_path}')`,
+                  backgroundPosition: 'center center',
+                  backgroundSize: 'cover',
+                }
+              : {}
+          }
+        />
         <div className={'relative px-4'}>
           <div className={'relative flex justify-between pt-4'}>
             <img
-              src="https://via.placeholder.com/250"
+              src={profile.profile_photo_path}
               alt=""
               className={
                 'rounded-full absolute left-0 border-4 border-black block w-1/5'
@@ -119,7 +130,7 @@ export default function UserProfileLayout({
               })()}
             </div>
           </div>
-          <h2 className={'font-bold text-lg pt-16'}>{profile.name}</h2>
+          <h2 className={'font-bold text-lg pt-8'}>{profile.name}</h2>
           <p className={'text-gray-400 text-sm'}>@{profile.username}</p>
           <p className={'mt-2 leading-snug'}>
             {profile.bio || <span className={'italic'}>no bio</span>}
@@ -134,9 +145,9 @@ export default function UserProfileLayout({
             {profile.website && (
               <div className={'flex items-center space-x-1'}>
                 <LinkIcon className={'w-4 h-4'} />
-                <InertiaLink className={'text-brand'} href={profile.website}>
+                <a className={'text-brand'} href={profile.website}>
                   {profile.website?.replace(/^https?:\/\//, '')}
-                </InertiaLink>
+                </a>
               </div>
             )}
             <div className={'flex items-center space-x-1'}>
