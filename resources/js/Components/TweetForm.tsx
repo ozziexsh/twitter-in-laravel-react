@@ -6,7 +6,7 @@ import {
   PhotographIcon,
 } from '@heroicons/react/outline';
 import useAxios from '@/Hooks/useAxios';
-import { Tweet } from '@/types';
+import { Tweet, User } from '@/types';
 import useTypedPage from '@/Hooks/useTypedPage';
 
 interface Props {
@@ -38,7 +38,6 @@ export default function TweetForm({ onCreate }: Props) {
       <div className={'pr-4'}>
         <img
           src={user.profile_photo_path}
-          alt=""
           className={'rounded-full w-12 h-12'}
         />
       </div>

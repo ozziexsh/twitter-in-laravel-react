@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
 import useAxios from '@/Hooks/useAxios';
 import useRoute from '@/Hooks/useRoute';
-import { User } from '@/types';
 
 interface Props {
-  user: User;
+  username: string;
   initialFollowersCount?: number;
   initialIsFollowing?: boolean;
 }
 
 export default function useFollow({
-  user,
+  username,
   initialFollowersCount = 0,
   initialIsFollowing = false,
 }: Props) {
@@ -28,13 +27,13 @@ export default function useFollow({
   }, [initialFollowersCount]);
 
   async function follow() {
-    await axios.post(route('users.followers.store', [user]));
+    await axios.post(route('users.followers.store', [username]));
     setIsFollowing(true);
     setFollowersCount(f => f + 1);
   }
 
   async function unfollow() {
-    await axios.delete(route('users.followers.destroy', [user]));
+    await axios.delete(route('users.followers.destroy', [username]));
     setIsFollowing(false);
     setFollowersCount(f => f - 1);
   }

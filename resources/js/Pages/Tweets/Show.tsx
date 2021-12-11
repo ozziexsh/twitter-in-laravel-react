@@ -15,6 +15,8 @@ import { InertiaLink } from '@inertiajs/inertia-react';
 import TweetActionButton, { ButtonColor } from '@/Components/TweetActionButton';
 import useAxios from '@/Hooks/useAxios';
 import useTweetLikes from '@/Hooks/useTweetLikes';
+import TweetAvatarHover from '@/Components/TweetAvatarHover';
+import useUser from '@/Hooks/useUser';
 
 interface Props {
   tweet: FeedTweet;
@@ -22,6 +24,7 @@ interface Props {
 }
 
 export default function TweetsShow({ tweet, replies }: Props) {
+  const user = useUser();
   const route = useRoute();
   const [body, setBody] = useState('');
   const axios = useAxios();
@@ -47,21 +50,30 @@ export default function TweetsShow({ tweet, replies }: Props) {
 
       <div className={'px-4 pt-4'}>
         <div className={'flex'}>
-          <img
-            src={tweet.user.profile_photo_path}
-            alt=""
-            className={'block rounded-full w-12 h-12'}
-          />
-          <div className={'ml-2'}>
+          <TweetAvatarHover username={tweet.user.username}>
             <InertiaLink
               href={route('users.show', [tweet.user])}
-              // onClick={onUsernameClick}
-              className={'flex flex-col text-sm'}
               preserveScroll={true}
             >
-              <span className={'font-bold'}>{tweet.user.name}</span>
-              <span className={'text-gray-400'}>@{tweet.user.username}</span>
+              <img
+                src={tweet.user.profile_photo_path}
+                className={'block rounded-full w-12 h-12'}
+              />
             </InertiaLink>
+          </TweetAvatarHover>
+          <div className={'ml-2'}>
+            <TweetAvatarHover username={tweet.user.username}>
+              <InertiaLink
+                href={route('users.show', [tweet.user])}
+                className={'flex flex-col text-sm group'}
+                preserveScroll={true}
+              >
+                <span className={'font-bold group-hover:underline'}>
+                  {tweet.user.name}
+                </span>
+                <span className={'text-gray-400'}>@{tweet.user.username}</span>
+              </InertiaLink>
+            </TweetAvatarHover>
           </div>
         </div>
         <div className={'mt-4 text-2xl text-white'}>
@@ -130,8 +142,7 @@ export default function TweetsShow({ tweet, replies }: Props) {
         <div className={'flex items-center space-x-2 py-2'}>
           <div>
             <img
-              src={tweet.user.profile_photo_path}
-              alt=""
+              src={user.profile_photo_path}
               className={'w-12 h-12 rounded-full'}
             />
           </div>

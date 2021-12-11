@@ -9,7 +9,7 @@ export default function useUserSummary(username?: string | null) {
     following_count: number;
     followers_count: number;
     is_following: boolean;
-  }>(username ? ['api', 'users', username, 'summary'] : null, (...path) =>
+  }>(username ? ['/api', 'users', username, 'summary'] : null, (...path) =>
     axios.get(path.join('/')).then(res => res.data),
   );
 }

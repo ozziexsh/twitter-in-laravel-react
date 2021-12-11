@@ -95,5 +95,9 @@ Route::group(['prefix' => 'api'], function () {
       'tweets/{tweet}/replies',
       Api\TweetReplyController::class
     )->name('api.tweets.replies.store');
+
+    Route::get('search/users', Api\UsersSearchController::class)->name(
+      'api.users.search.index'
+    );
   });
 });

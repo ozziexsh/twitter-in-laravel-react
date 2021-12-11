@@ -12,6 +12,7 @@ import {
 import { Inertia } from '@inertiajs/inertia';
 import { InertiaLink } from '@inertiajs/inertia-react';
 import TweetAvatarHover from '@/Components/TweetAvatarHover';
+import TweetBody from '@/Components/TweetBody';
 
 interface Props {
   tweet: FeedTweet;
@@ -40,7 +41,7 @@ export default function TweetCard({ tweet }: Props) {
       onClick={onTweetClick}
     >
       <div className={'pr-4'}>
-        <TweetAvatarHover tweet={tweet}>
+        <TweetAvatarHover username={tweet.user.username}>
           <img
             src={user.profile_photo_path}
             alt=""
@@ -49,18 +50,20 @@ export default function TweetCard({ tweet }: Props) {
         </TweetAvatarHover>
       </div>
       <div className={'flex-1 -mt-1'}>
-        <InertiaLink
-          href={route('users.show', [user])}
-          onClick={onUsernameClick}
-          className={'inline-flex items-center space-x-1 text-sm'}
-          preserveScroll={true}
-        >
-          <span className={'font-bold'}>{user.name}</span>
-          <span className={'text-gray-400'}>@{user.username}</span>
-        </InertiaLink>
-        {tweet.body.split('\n').map((text, i) => (
-          <p key={i}>{text}</p>
-        ))}
+        <TweetAvatarHover username={tweet.user.username}>
+          <InertiaLink
+            href={route('users.show', [user])}
+            onClick={onUsernameClick}
+            preserveScroll={true}
+            className={'inline-flex items-center space-x-1 text-sm group'}
+          >
+            <span className={'font-bold group-hover:underline'}>
+              {user.name}
+            </span>
+            <span className={'text-gray-400'}>@{user.username}</span>
+          </InertiaLink>
+        </TweetAvatarHover>
+        <TweetBody body={tweet.body} />
         <div
           className={
             '-ml-2 mt-1 flex items-center justify-between text-gray-400 w-3/4 text-sm'

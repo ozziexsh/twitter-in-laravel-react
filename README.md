@@ -27,14 +27,15 @@ Going for a 1:1 recreation of Twitter in Laravel.
 - [x] ~~Hover avatar for a profile quicklook~~
 - [x] ~~Upload an avatar~~
 - [x] ~~Upload a cover image~~
-- [ ] Light / dark mode
 - [ ] Retweets
 - [ ] Quote retweet
+- [ ] Hashtags
+- [ ] User mentions
+- [ ] Light / dark mode
 - [ ] Share dialog
 - [ ] DM a user
 - [ ] Send a tweet via dm
-- [ ] Hashtags
-- [ ] User mentions
+- [ ] Profile privacy
 - [ ] PHPStan level 9 (?)
 - [ ] PEST tests
 
