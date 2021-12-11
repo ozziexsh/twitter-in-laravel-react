@@ -5,6 +5,7 @@ import useRoute from '@/Hooks/useRoute';
 import Button from '@/Components/Button';
 import useUserSummary from '@/Hooks/useUserSummary';
 import useFollow from '@/Hooks/useFollow';
+import { Transition } from '@headlessui/react';
 
 export default function TweetAvatarHover({
   username,
@@ -20,73 +21,84 @@ export default function TweetAvatarHover({
   });
 
   return (
-    <HoverCard.Root openDelay={300} onOpenChange={setOpen}>
+    <HoverCard.Root openDelay={200} onOpenChange={setOpen}>
       <HoverCard.Trigger asChild={true}>{children}</HoverCard.Trigger>
 
-      <HoverCard.Content className="shadow bg-black rounded-md border border-divider p-4 w-72">
-        <HoverCard.Arrow />
-        <div className={'flex items-center justify-between'}>
-          <InertiaLink
-            href={route('users.show', [username])}
-            onClick={e => e.stopPropagation()}
-          >
-            <img
-              src={summary?.user.profile_photo_path}
-              alt=""
-              className={'w-14 h-14 rounded-full'}
-            />
-          </InertiaLink>
-          <Button
-            appearance={isFollowing ? 'filled' : 'outlined'}
-            color={'white'}
-            onClick={e => {
-              e.stopPropagation();
-              isFollowing ? unfollow() : follow();
-            }}
-          >
-            {isFollowing ? 'Unfollow' : 'Follow'}
-          </Button>
-        </div>
-        <div className={'mt-1'}>
-          <InertiaLink
-            href={route('users.show', [username])}
-            onClick={e => e.stopPropagation()}
-            className={'group'}
-          >
-            <p className={'text-white font-bold group-hover:underline'}>
-              {summary?.user.name}
-            </p>
-            <p className={'text-gray-500 -mt-1'}>@{summary?.user.username}</p>
-          </InertiaLink>
-          <p className={'text-white mt-2 leading-snug'}>
-            {summary?.user.bio || 'no bio'}
-          </p>
-          <div className={'text-white flex items-center space-x-4 mt-2'}>
+      <Transition
+        show={open}
+        as={React.Fragment}
+        enter="ease-out duration-300"
+        enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        enterTo="opacity-100 translate-y-0 sm:scale-100"
+        leave="ease-in duration-200"
+        leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+        leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+      >
+        <HoverCard.Content className="shadow bg-black rounded-md border border-divider p-4 w-72">
+          <HoverCard.Arrow />
+          <div className={'flex items-center justify-between'}>
             <InertiaLink
-              className={'flex items-center space-x-1 hover:underline'}
-              href={route('users.following.index', [username])}
+              href={route('users.show', [username])}
               onClick={e => e.stopPropagation()}
             >
-              <span>
-                <span className={'font-bold'}>
-                  {summary?.following_count ?? '-'}
-                </span>{' '}
-                <span className={'text-gray-400'}>Following</span>
-              </span>
+              <img
+                src={summary?.user.profile_photo_path}
+                alt=""
+                className={'w-14 h-14 rounded-full'}
+              />
             </InertiaLink>
-            <InertiaLink
-              className={'flex items-center space-x-1 hover:underline'}
-              href={route('users.followers.index', [username])}
-              onClick={e => e.stopPropagation()}
+            <Button
+              appearance={isFollowing ? 'filled' : 'outlined'}
+              color={'white'}
+              onClick={e => {
+                e.stopPropagation();
+                isFollowing ? unfollow() : follow();
+              }}
             >
-              <span>
-                <span className={'font-bold'}>{followersCount ?? '-'}</span>{' '}
-                <span className={'text-gray-400'}>Followers</span>
-              </span>
-            </InertiaLink>
+              {isFollowing ? 'Unfollow' : 'Follow'}
+            </Button>
           </div>
-        </div>
-      </HoverCard.Content>
+          <div className={'mt-1'}>
+            <InertiaLink
+              href={route('users.show', [username])}
+              onClick={e => e.stopPropagation()}
+              className={'group'}
+            >
+              <p className={'text-white font-bold group-hover:underline'}>
+                {summary?.user.name}
+              </p>
+              <p className={'text-gray-500 -mt-1'}>@{summary?.user.username}</p>
+            </InertiaLink>
+            <p className={'text-white mt-2 leading-snug'}>
+              {summary?.user.bio || 'no bio'}
+            </p>
+            <div className={'text-white flex items-center space-x-4 mt-2'}>
+              <InertiaLink
+                className={'flex items-center space-x-1 hover:underline'}
+                href={route('users.following.index', [username])}
+                onClick={e => e.stopPropagation()}
+              >
+                <span>
+                  <span className={'font-bold'}>
+                    {summary?.following_count ?? '-'}
+                  </span>{' '}
+                  <span className={'text-gray-400'}>Following</span>
+                </span>
+              </InertiaLink>
+              <InertiaLink
+                className={'flex items-center space-x-1 hover:underline'}
+                href={route('users.followers.index', [username])}
+                onClick={e => e.stopPropagation()}
+              >
+                <span>
+                  <span className={'font-bold'}>{followersCount ?? '-'}</span>{' '}
+                  <span className={'text-gray-400'}>Followers</span>
+                </span>
+              </InertiaLink>
+            </div>
+          </div>
+        </HoverCard.Content>
+      </Transition>
     </HoverCard.Root>
   );
 }
